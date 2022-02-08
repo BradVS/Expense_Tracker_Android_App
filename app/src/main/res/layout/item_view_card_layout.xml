@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/date_textview_itemview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="78dp"
+                android:layout_marginTop="38dp"
+                android:layout_marginEnd="60dp"
+                android:text="TextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/category_textview_itemview"
+                app:layout_constraintTop_toBottomOf="@+id/deleteButton_imagebutton_itemview" />
+
+            <ImageButton
+                android:id="@+id/deleteButton_imagebutton_itemview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/editButton_imagebutton_itemview"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_delete_24" />
+
+            <ImageButton
+                android:id="@+id/editButton_imagebutton_itemview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="94dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="6dp"
+                app:layout_constraintEnd_toStartOf="@+id/deleteButton_imagebutton_itemview"
+                app:layout_constraintStart_toEndOf="@+id/name_textview_itemview"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_edit_24" />
+
+            <TextView
+                android:id="@+id/category_textview_itemview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="29dp"
+                android:layout_marginTop="19dp"
+                android:text="TextView"
+                app:layout_constraintStart_toEndOf="@+id/icon_imageview_itemview"
+                app:layout_constraintTop_toBottomOf="@+id/money_textview_itemview" />
+
+            <ImageView
+                android:id="@+id/icon_imageview_itemview"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_baseline_misc_24"
+                tools:srcCompat="@drawable/ic_baseline_misc_24" />
+
+            <TextView
+                android:id="@+id/name_textview_itemview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="29dp"
+                android:layout_marginTop="16dp"
+                android:text="TEST"
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@+id/icon_imageview_itemview"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/money_textview_itemview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="29dp"
+                android:layout_marginTop="15dp"
+                android:text="TextView"
+                app:layout_constraintStart_toEndOf="@+id/icon_imageview_itemview"
+                app:layout_constraintTop_toBottomOf="@+id/name_textview_itemview" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

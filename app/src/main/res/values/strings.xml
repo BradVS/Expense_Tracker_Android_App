@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Project Nine</string>
+    
+    <string-array name="list_choices">
+        <item>Food</item>
+        <item>Transportation</item>
+        <item>Shopping</item>
+        <item>Miscellaneous</item>
+    </string-array>
+</resources>
