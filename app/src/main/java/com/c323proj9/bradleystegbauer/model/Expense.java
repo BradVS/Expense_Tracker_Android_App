@@ -11,6 +11,14 @@ public class Expense {
     private String name, date, category;
     private double money;
 
+    public Expense(String name, String date, String category, double money) {
+        this.id = -99;
+        this.name = name;
+        this.date = date;
+        this.category = category;
+        this.money = money;
+    }
+
     public Expense(int id, String name, String date, String category, double money) {
         this.id = id;
         this.name = name;
