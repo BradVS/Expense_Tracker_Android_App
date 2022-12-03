@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ExpenseController {
     List<Expense> getAllExpenses();
-    List<Expense> getExpensesFromCategory(String category);
+    List<Expense> getExpensesFromSearch(String searchInput, int type, String category);
     Expense addExpense(Expense expense) throws InvalidInputException;
     Expense getExpense();
     Expense updateExpense(Expense expense);

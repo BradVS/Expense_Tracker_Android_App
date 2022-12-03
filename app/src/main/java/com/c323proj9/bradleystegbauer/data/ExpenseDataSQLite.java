@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.c323proj9.bradleystegbauer.data.exceptions.NoExpenseFoundException;
 import com.c323proj9.bradleystegbauer.model.Expense;
 
 import java.util.ArrayList;
@@ -70,17 +71,38 @@ public class ExpenseDataSQLite implements ExpenseDataManager{
     }
 
     @Override
-    public Expense getExpense() {
-        return null;
+    public Expense getExpense(int id) throws NoExpenseFoundException{
+        //TODO: add exception handling
+        Cursor cursor = db.rawQuery("SELECT * FROM expenses WHERE id = '"+id+"';", null);
+        int idCol = cursor.getColumnIndex("id");
+        int nameCol = cursor.getColumnIndex("name");
+        int moneyCol = cursor.getColumnIndex("money");
+        int dateCol = cursor.getColumnIndex("date");
+        int categoryCol = cursor.getColumnIndex("category");
+        cursor.moveToFirst();
+        if (cursor.getCount() <= 0){
+            throw new NoExpenseFoundException("Expense not found.");
+        }
+        Expense expense = new Expense(cursor.getInt(idCol), cursor.getString(nameCol), cursor.getString(dateCol),
+                cursor.getString(categoryCol), cursor.getDouble(moneyCol));
+
+        cursor.close();
+        return expense;
     }
 
     @Override
     public Expense updateExpense(Expense expense) {
-        return null;
+//        TODO: replace when better date formatter is implemented
+        String[] dateArray = expense.getDate().split("/");
+        String dateFormat = dateArray[2]+"-"+dateArray[0]+"-"+dateArray[1];
+        db.execSQL("UPDATE expenses SET name = '" + expense.getName() +"', money = '" + expense.getMoney() +"', date = '" + dateFormat +"', category = '" +
+                expense.getCategory() +"' WHERE id = " + expense.getId() + ";");
+        return expense;
     }
 
     @Override
-    public Expense deleteExpense() {
+    public Expense deleteExpense(int id) {
+        db.execSQL("DELETE FROM expenses WHERE id = " + id + ";");
         return null;
     }
 }
