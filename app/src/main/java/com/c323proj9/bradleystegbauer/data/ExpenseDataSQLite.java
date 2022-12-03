@@ -1,8 +1,11 @@
 package com.c323proj9.bradleystegbauer.data;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.Toast;
 
 import com.c323proj9.bradleystegbauer.data.exceptions.NoExpenseFoundException;
 import com.c323proj9.bradleystegbauer.model.Expense;
@@ -21,7 +24,22 @@ public class ExpenseDataSQLite implements ExpenseDataManager{
 
     @Override
     public List<Expense> getAllExpenses() {
-        return null;
+        List<Expense> expenses = new ArrayList<>();
+        Cursor cursor = db.rawQuery("SELECT * FROM expenses ORDER BY date(date);", null);
+        int idCol = cursor.getColumnIndex("id");
+        int nameCol = cursor.getColumnIndex("name");
+        int moneyCol = cursor.getColumnIndex("money");
+        int dateCol = cursor.getColumnIndex("date");
+        int categoryCol = cursor.getColumnIndex("category");
+        cursor.moveToFirst();
+        if (cursor.getCount() > 0){
+            do{
+                expenses.add(new Expense(cursor.getInt(idCol), cursor.getString(nameCol), cursor.getString(dateCol),
+                        cursor.getString(categoryCol), cursor.getDouble(moneyCol)));
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+        return expenses;
     }
 
     @Override
