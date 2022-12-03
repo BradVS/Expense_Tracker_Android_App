@@ -2,6 +2,7 @@ package com.c323proj9.bradleystegbauer.controller;
 
 import static org.junit.Assert.*;
 
+import com.c323proj9.bradleystegbauer.controller.exceptions.InvalidIDException;
 import com.c323proj9.bradleystegbauer.controller.exceptions.InvalidInputException;
 import com.c323proj9.bradleystegbauer.data.ExpenseDataManager;
 import com.c323proj9.bradleystegbauer.data.ExpenseDataSQLite;
@@ -50,7 +51,7 @@ public class ExpenseControllerObjectTest {
     }
 
     @Test
-    public void getExpense() {
+    public void getExpense() throws InvalidIDException {
         ExpenseController controller = new ExpenseControllerObject();
         List<Expense> expenses = controller.getAllExpenses();
         assertTrue(expenses.size() > 0);
