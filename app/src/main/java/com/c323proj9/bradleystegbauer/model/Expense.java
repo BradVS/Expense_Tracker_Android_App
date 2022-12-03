@@ -1,4 +1,4 @@
-package com.c323proj9.bradleystegbauer;
+package com.c323proj9.bradleystegbauer.model;
 
 import androidx.annotation.NonNull;
 import java.util.Objects;

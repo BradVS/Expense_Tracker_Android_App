@@ -26,10 +26,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.c323proj9.bradleystegbauer.model.Expense;
+
 import java.util.ArrayList;
 
 public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemViewHolder> {
-    Context context;
+    final Context context;
     private SQLiteDatabase db;
     private ArrayList<Expense> expenses;
     String editCategory = "";
@@ -45,7 +47,7 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemView
         int dateCol = cursor.getColumnIndex("date");
         int categoryCol = cursor.getColumnIndex("category");
         cursor.moveToFirst();
-        if (cursor!=null && cursor.getCount()> 0){
+        if (cursor.getCount() > 0){
             do{
                 expenses.add(new Expense(cursor.getInt(idCol), cursor.getString(nameCol), cursor.getString(dateCol),
                         cursor.getString(categoryCol), cursor.getDouble(moneyCol)));
@@ -67,14 +69,19 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemView
     @Override
     public void onBindViewHolder(@NonNull final ItemViewHolder holder, final int position) {
         String cat = this.expenses.get(position).getCategory();
-        if (cat.equals("Food")){
-            holder.categoryIcon.setImageResource(R.drawable.ic_baseline_food_24);
-        } else if(cat.equals("Transportation")){
-            holder.categoryIcon.setImageResource(R.drawable.ic_baseline_car_24);
-        }else if(cat.equals("Shopping")){
-            holder.categoryIcon.setImageResource(R.drawable.ic_baseline_shopping_cart_24);
-        }else{
-            holder.categoryIcon.setImageResource(R.drawable.ic_baseline_misc_24);
+        switch (cat) {
+            case "Food":
+                holder.categoryIcon.setImageResource(R.drawable.ic_baseline_food_24);
+                break;
+            case "Transportation":
+                holder.categoryIcon.setImageResource(R.drawable.ic_baseline_car_24);
+                break;
+            case "Shopping":
+                holder.categoryIcon.setImageResource(R.drawable.ic_baseline_shopping_cart_24);
+                break;
+            default:
+                holder.categoryIcon.setImageResource(R.drawable.ic_baseline_misc_24);
+                break;
         }
         holder.name.setText(this.expenses.get(position).getName());
         holder.date.setText(this.expenses.get(position).getDate());
@@ -210,7 +217,7 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemView
         int dateCol = cursor.getColumnIndex("date");
         int categoryCol = cursor.getColumnIndex("category");
         cursor.moveToFirst();
-        if (cursor!=null && cursor.getCount()> 0){
+        if (cursor.getCount() > 0){
             do{
                 expenses.add(new Expense(cursor.getInt(idCol), cursor.getString(nameCol), cursor.getString(dateCol),
                         cursor.getString(categoryCol), cursor.getDouble(moneyCol)));
@@ -285,7 +292,7 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemView
         return true;
     }
 
-    public class ItemViewHolder extends RecyclerView.ViewHolder{
+    public static class ItemViewHolder extends RecyclerView.ViewHolder{
         TextView name;
         TextView money;
         TextView category;
