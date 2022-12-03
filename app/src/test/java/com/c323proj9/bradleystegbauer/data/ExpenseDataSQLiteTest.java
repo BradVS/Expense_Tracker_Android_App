@@ -2,6 +2,9 @@ package com.c323proj9.bradleystegbauer.data;
 
 import static org.junit.Assert.*;
 
+import com.c323proj9.bradleystegbauer.controller.ExpenseController;
+import com.c323proj9.bradleystegbauer.controller.ExpenseControllerObject;
+import com.c323proj9.bradleystegbauer.data.exceptions.NoExpenseFoundException;
 import com.c323proj9.bradleystegbauer.model.Expense;
 
 import org.junit.Before;
@@ -30,6 +33,11 @@ public class ExpenseDataSQLiteTest {
 
     @Test
     public void getExpensesFromSearch() {
+        String additionalQueryPart = " AND name = 'TestExpense'";
+        ExpenseDataManager dataManager = new ExpenseDataSQLite();
+        List<Expense> expenses = dataManager.getExpensesFromSearch("Food", additionalQueryPart);
+        assertTrue(expenses.size() > 0);
+        assertEquals(expenses.get(0).getName(), "TestExpense");
     }
 
     @Test
@@ -42,7 +50,12 @@ public class ExpenseDataSQLiteTest {
     }
 
     @Test
-    public void getExpense() {
+    public void getExpense() throws NoExpenseFoundException {
+        ExpenseDataManager dataManager = new ExpenseDataSQLite();
+        List<Expense> expenses = dataManager.getAllExpenses();
+        assertTrue(expenses.size() > 0);
+        Expense searchedExpense = dataManager.getExpense(expenses.get(0).getId());
+        assertEquals(searchedExpense.getId(), expenses.get(0).getId());
     }
 
     @Test
