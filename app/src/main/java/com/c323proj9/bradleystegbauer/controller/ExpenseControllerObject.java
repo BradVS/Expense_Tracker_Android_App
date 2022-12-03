@@ -98,8 +98,11 @@ public class ExpenseControllerObject implements ExpenseController {
     }
 
     @Override
-    public Expense deleteExpense(int id) {
-        return null;
+    public Expense deleteExpense(int id) throws InvalidIDException {
+        if (id < 0){
+            throw new InvalidIDException("ID for search is not valid.");
+        }
+        return dataManager.deleteExpense(id);
     }
 
     /**

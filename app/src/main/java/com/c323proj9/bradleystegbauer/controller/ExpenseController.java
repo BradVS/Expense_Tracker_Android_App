@@ -13,5 +13,5 @@ public interface ExpenseController {
     Expense addExpense(String name, String moneyString, String date, String category) throws InvalidInputException;
     Expense getExpense(int id) throws InvalidIDException;
     Expense updateExpense(Expense expense);
-    Expense deleteExpense(int id);
+    Expense deleteExpense(int id) throws InvalidIDException;
 }

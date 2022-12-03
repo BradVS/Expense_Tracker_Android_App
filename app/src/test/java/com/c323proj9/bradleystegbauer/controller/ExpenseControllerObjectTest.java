@@ -74,7 +74,7 @@ public class ExpenseControllerObjectTest {
     }
 
     @Test
-    public void deleteExpense() {
+    public void deleteExpense() throws InvalidIDException{
         ExpenseController controller = new ExpenseControllerObject();
         List<Expense> expenses = controller.getAllExpenses();
         assertTrue(expenses.size() > 0);
