@@ -13,14 +13,20 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.c323proj9.bradleystegbauer.controller.ExpenseController;
+import com.c323proj9.bradleystegbauer.controller.ExpenseControllerObject;
+import com.c323proj9.bradleystegbauer.controller.exceptions.InvalidInputException;
+
 public class MainActivity extends AppCompatActivity {
     String category = "";
     private SQLiteDatabase db;
+    private ExpenseController controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        controller = new ExpenseControllerObject();
         Spinner spinner = findViewById(R.id.categoryChoice_spinner_main);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.list_choices, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -49,34 +55,45 @@ public class MainActivity extends AppCompatActivity {
      * @param view The view used for the callback function.
      */
     public void addExpenseCallback(View view) {
+        EditText nameInput = findViewById(R.id.expenseInput_edittext_main);
+        EditText moneyInput = findViewById(R.id.moneyInput_edittext_main);
+        EditText dateInput = findViewById(R.id.dateInput_edittext_main);
+        String name = nameInput.getText().toString();
+        String moneyString = moneyInput.getText().toString();
+        String date = dateInput.getText().toString();
         try{
-            EditText nameInput = findViewById(R.id.expenseInput_edittext_main);
-            EditText moneyInput = findViewById(R.id.moneyInput_edittext_main);
-            EditText dateInput = findViewById(R.id.dateInput_edittext_main);
-            String name = nameInput.getText().toString();
-            String moneyString = moneyInput.getText().toString();
-            String date = dateInput.getText().toString();
-            if (name.equals("") || moneyString.equals("") || date.equals("") || category.equals("")){
-                Toast.makeText(this, "Please fill all inputs.", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            double money = Double.parseDouble(moneyString);
-            if (!dateFormatCheck(date)){
-                Toast.makeText(this, "Please enter a valid date.", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            String[] dateArray = date.split("/");
-            String dateFormat = dateArray[2]+"-"+dateArray[0]+"-"+dateArray[1];
-            if (db.isOpen() && db != null){
-                db.execSQL("INSERT INTO expenses(name, money, date, category) VALUES('"+name+"','"+money+"','"+dateFormat+"','"+category+"');");
-                Toast.makeText(this, "Item added!", Toast.LENGTH_SHORT).show();
-                nameInput.setText("");
-                dateInput.setText("");
-                moneyInput.setText("");
-            }
-        } catch (NumberFormatException e){
-            Toast.makeText(this, "Please enter a valid monetary amount.", Toast.LENGTH_SHORT).show();
+            controller.addExpense(name, moneyString, date, category);
+        } catch (InvalidInputException e){
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+//        try{
+//            EditText nameInput = findViewById(R.id.expenseInput_edittext_main);
+//            EditText moneyInput = findViewById(R.id.moneyInput_edittext_main);
+//            EditText dateInput = findViewById(R.id.dateInput_edittext_main);
+//            String name = nameInput.getText().toString();
+//            String moneyString = moneyInput.getText().toString();
+//            String date = dateInput.getText().toString();
+//            if (name.equals("") || moneyString.equals("") || date.equals("") || category.equals("")){
+//                Toast.makeText(this, "Please fill all inputs.", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            double money = Double.parseDouble(moneyString);
+//            if (!dateFormatCheck(date)){
+//                Toast.makeText(this, "Please enter a valid date.", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            String[] dateArray = date.split("/");
+//            String dateFormat = dateArray[2]+"-"+dateArray[0]+"-"+dateArray[1];
+//            if (db.isOpen() && db != null){
+//                db.execSQL("INSERT INTO expenses(name, money, date, category) VALUES('"+name+"','"+money+"','"+dateFormat+"','"+category+"');");
+//                Toast.makeText(this, "Item added!", Toast.LENGTH_SHORT).show();
+//                nameInput.setText("");
+//                dateInput.setText("");
+//                moneyInput.setText("");
+//            }
+//        } catch (NumberFormatException e){
+//            Toast.makeText(this, "Please enter a valid monetary amount.", Toast.LENGTH_SHORT).show();
+//        }
     }
 
     /**
