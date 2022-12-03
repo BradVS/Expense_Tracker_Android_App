@@ -8,10 +8,11 @@ import java.util.Objects;
  */
 public class Expense {
     private final int id;
+    @NonNull
     private String name, date, category;
     private double money;
 
-    public Expense(String name, String date, String category, double money) {
+    public Expense(@NonNull String name, @NonNull String date, @NonNull String category, double money) {
         this.id = -99;
         this.name = name;
         this.date = date;
@@ -19,7 +20,7 @@ public class Expense {
         this.money = money;
     }
 
-    public Expense(int id, String name, String date, String category, double money) {
+    public Expense(int id, @NonNull String name, @NonNull String date, @NonNull String category, double money) {
         this.id = id;
         this.name = name;
         this.date = date;
@@ -31,14 +32,17 @@ public class Expense {
         return id;
     }
 
+    @NonNull
     public String getName() {
         return name;
     }
 
+    @NonNull
     public String getDate() {
         return date;
     }
 
+    @NonNull
     public String getCategory() {
         return category;
     }
@@ -47,15 +51,15 @@ public class Expense {
         return money;
     }
 
-    public void setName(String name) {
+    public void setName(@NonNull String name) {
         this.name = name;
     }
 
-    public void setDate(String date) {
+    public void setDate(@NonNull String date) {
         this.date = date;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(@NonNull String category) {
         this.category = category;
     }
 
