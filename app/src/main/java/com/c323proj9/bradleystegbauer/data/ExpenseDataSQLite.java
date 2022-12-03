@@ -1,11 +1,7 @@
 package com.c323proj9.bradleystegbauer.data;
 
-import static android.content.Context.MODE_PRIVATE;
-
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.widget.Toast;
 
 import com.c323proj9.bradleystegbauer.data.exceptions.NoExpenseFoundException;
 import com.c323proj9.bradleystegbauer.model.Expense;
