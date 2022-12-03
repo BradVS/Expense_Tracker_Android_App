@@ -33,6 +33,11 @@ public class ExpenseControllerObjectTest {
 
     @Test
     public void getExpensesFromSearch() {
+        ExpenseController controller = new ExpenseControllerObject();
+        List<Expense> expenses = controller.getExpensesFromSearch("TestExpense", 0, "Food");
+        assertTrue(expenses.size() > 0);
+        assertTrue(expenses.contains(new Expense("TestExpense", "12/12/2022", "Food", 12.12)));
+        assertEquals("TestExpense", expenses.get(0).getName());
     }
 
     @Test
@@ -46,6 +51,11 @@ public class ExpenseControllerObjectTest {
 
     @Test
     public void getExpense() {
+        ExpenseController controller = new ExpenseControllerObject();
+        List<Expense> expenses = controller.getAllExpenses();
+        assertTrue(expenses.size() > 0);
+        Expense searchedExpense = controller.getExpense(expenses.get(0).getId());
+        assertEquals(searchedExpense.getId(), expenses.get(0).getId());
     }
 
     @Test

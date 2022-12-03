@@ -32,7 +32,7 @@ public class ExpenseControllerObject implements ExpenseController {
     }
 
     @Override
-    public Expense getExpense() {
+    public Expense getExpense(int id) {
         return null;
     }
 

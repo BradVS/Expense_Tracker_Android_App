@@ -9,7 +9,7 @@ public interface ExpenseController {
     List<Expense> getAllExpenses();
     List<Expense> getExpensesFromSearch(String searchInput, int type, String category);
     Expense addExpense(Expense expense) throws InvalidInputException;
-    Expense getExpense();
+    Expense getExpense(int id);
     Expense updateExpense(Expense expense);
     Expense deleteExpense(int id);
 }
