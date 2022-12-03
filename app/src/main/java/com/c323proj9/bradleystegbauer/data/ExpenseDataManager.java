@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ExpenseDataManager {
     List<Expense> getAllExpenses();
-    List<Expense> getExpensesFromSearch(String searchInput, int type, String category);
+    List<Expense> getExpensesFromSearch(String category, String additionalQueryPart);
     Expense addExpense(Expense expense);
     Expense getExpense(int id) throws NoExpenseFoundException;
     Expense updateExpense(Expense expense);

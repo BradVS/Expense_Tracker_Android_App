@@ -22,7 +22,25 @@ public class ExpenseControllerObject implements ExpenseController {
 
     @Override
     public List<Expense> getExpensesFromSearch(String searchInput, int type, String category) {
-        return dataManager.getExpensesFromSearch(searchInput, type, category);
+        String additionalQueryPart = "";
+        if (type == 0){
+            additionalQueryPart = " AND name = '" + searchInput + "'";
+        }else if(type == 2){
+            if (searchInput.equals("")){
+                additionalQueryPart = "";
+            }else{
+                //TODO: replace with better data format system
+                String[] dateArray = searchInput.split("/");
+                String dateFormat = dateArray[2]+"-"+dateArray[0]+"-"+dateArray[1];
+                additionalQueryPart = " AND date = '" + dateFormat +"'";
+            }
+        }else if(type == 1){
+            additionalQueryPart = " AND money = '" + searchInput + "'";
+        }
+        if (searchInput.equals("")){ //makes it so the search only does a filter if nothing was input
+            additionalQueryPart = "";
+        }
+        return dataManager.getExpensesFromSearch(category, additionalQueryPart);
     }
 
     @Override
