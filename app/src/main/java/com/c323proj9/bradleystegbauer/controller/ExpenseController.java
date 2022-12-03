@@ -11,5 +11,5 @@ public interface ExpenseController {
     Expense addExpense(Expense expense) throws InvalidInputException;
     Expense getExpense();
     Expense updateExpense(Expense expense);
-    Expense deleteExpense();
+    Expense deleteExpense(int id);
 }

@@ -42,7 +42,7 @@ public class ExpenseControllerObject implements ExpenseController {
     }
 
     @Override
-    public Expense deleteExpense() {
+    public Expense deleteExpense(int id) {
         return null;
     }
 }
