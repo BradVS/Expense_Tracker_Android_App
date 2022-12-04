@@ -8,11 +8,15 @@ import com.c323proj9.bradleystegbauer.data.ExpenseDataManager;
 import com.c323proj9.bradleystegbauer.data.ExpenseDataSQLite;
 import com.c323proj9.bradleystegbauer.model.Expense;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 
 import java.util.List;
 
+@RunWith(RobolectricTestRunner.class)
 public class ExpenseControllerObjectTest {
 
     @Before
@@ -70,6 +74,8 @@ public class ExpenseControllerObjectTest {
         List<Expense> expenses1 = controller.getAllExpenses();
         assertEquals(expenses.size(), expenses1.size());
         assertFalse(expenses1.contains(expenses.get(0)));
+        System.out.println(expense);
+        System.out.println(expenses1.toString());
         assertTrue(expenses1.contains(expense));
     }
 
@@ -82,5 +88,14 @@ public class ExpenseControllerObjectTest {
         List<Expense> expenses1 = controller.getAllExpenses();
         assertNotEquals(expenses.size(), expenses1.size());
         assertFalse(expenses1.contains(expenses.get(0)));
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        ExpenseController controller = new ExpenseControllerObject();
+        List<Expense> expenses = controller.getAllExpenses();
+        for (Expense expense: expenses) {
+            controller.deleteExpense(expense.getId());
+        }
     }
 }

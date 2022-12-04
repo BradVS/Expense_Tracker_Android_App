@@ -19,7 +19,7 @@ import com.c323proj9.bradleystegbauer.controller.exceptions.InvalidInputExceptio
 
 public class MainActivity extends AppCompatActivity {
     String category = "";
-    private SQLiteDatabase db;
+//    private SQLiteDatabase db;
     private ExpenseController controller;
 
     @Override
@@ -42,12 +42,12 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        try{
-            db = this.openOrCreateDatabase("ExpensesDB",  MODE_PRIVATE,null);
-            db.execSQL("CREATE TABLE IF NOT EXISTS expenses" + "(id integer primary key, name text, money real, date text, category text);");
-        } catch (SQLException e){
-            Toast.makeText(this, "Error: Could not connect to database.", Toast.LENGTH_SHORT).show();
-        }
+//        try{
+//            db = this.openOrCreateDatabase("ExpensesDB",  MODE_PRIVATE,null);
+//            db.execSQL("CREATE TABLE IF NOT EXISTS expenses" + "(id integer primary key, name text, money real, date text, category text);");
+//        } catch (SQLException e){
+//            Toast.makeText(this, "Error: Could not connect to database.", Toast.LENGTH_SHORT).show();
+//        }
     }
 
     /**

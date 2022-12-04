@@ -26,37 +26,45 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.c323proj9.bradleystegbauer.controller.ExpenseController;
+import com.c323proj9.bradleystegbauer.controller.ExpenseControllerObject;
+import com.c323proj9.bradleystegbauer.controller.exceptions.InvalidIDException;
+import com.c323proj9.bradleystegbauer.controller.exceptions.InvalidInputException;
 import com.c323proj9.bradleystegbauer.model.Expense;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemViewHolder> {
     final Context context;
     private SQLiteDatabase db;
-    private ArrayList<Expense> expenses;
+    private List<Expense> expenses;
+    private final ExpenseController controller;
     String editCategory = "";
     PopupWindow popupWindow;
     public RecViewAdapter(Context context) {
         this.context = context;
-        expenses = new ArrayList<>();
-        db = context.openOrCreateDatabase("ExpensesDB",  MODE_PRIVATE,null);
-        Cursor cursor = db.rawQuery("SELECT * FROM expenses ORDER BY date(date);", null);
-        int idCol = cursor.getColumnIndex("id");
-        int nameCol = cursor.getColumnIndex("name");
-        int moneyCol = cursor.getColumnIndex("money");
-        int dateCol = cursor.getColumnIndex("date");
-        int categoryCol = cursor.getColumnIndex("category");
-        cursor.moveToFirst();
-        if (cursor.getCount() > 0){
-            do{
-                expenses.add(new Expense(cursor.getInt(idCol), cursor.getString(nameCol), cursor.getString(dateCol),
-                        cursor.getString(categoryCol), cursor.getDouble(moneyCol)));
-            }while(cursor.moveToNext());
-        }
-        if(expenses.isEmpty()){
-            Toast.makeText(context, "No expenses found.", Toast.LENGTH_SHORT).show();
-        }
-        cursor.close();
+        this.controller = new ExpenseControllerObject();
+        this.expenses = controller.getAllExpenses();
+//        expenses = new ArrayList<>();
+//        db = context.openOrCreateDatabase("ExpensesDB",  MODE_PRIVATE,null);
+//        Cursor cursor = db.rawQuery("SELECT * FROM expenses ORDER BY date(date);", null);
+//        int idCol = cursor.getColumnIndex("id");
+//        int nameCol = cursor.getColumnIndex("name");
+//        int moneyCol = cursor.getColumnIndex("money");
+//        int dateCol = cursor.getColumnIndex("date");
+//        int categoryCol = cursor.getColumnIndex("category");
+//        cursor.moveToFirst();
+//        if (cursor.getCount() > 0){
+//            do{
+//                expenses.add(new Expense(cursor.getInt(idCol), cursor.getString(nameCol), cursor.getString(dateCol),
+//                        cursor.getString(categoryCol), cursor.getDouble(moneyCol)));
+//            }while(cursor.moveToNext());
+//        }
+//        if(expenses.isEmpty()){
+//            Toast.makeText(context, "No expenses found.", Toast.LENGTH_SHORT).show();
+//        }
+//        cursor.close();
     }
 
     @NonNull
@@ -191,39 +199,46 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemView
      */
     @SuppressLint("NotifyDataSetChanged")
     public void search(String input, int type, String category){
-        expenses = new ArrayList<>();
-        db = context.openOrCreateDatabase("ExpensesDB",  MODE_PRIVATE,null);
-        String additionalQueryPart = "";
-        if (type == 0){
-            additionalQueryPart = " AND name = '" + input + "'";
-        }else if(type == 2){
-            if (input.equals("")){
-                additionalQueryPart = "";
-            }else{
-                String[] dateArray = input.split("/");
-                String dateFormat = dateArray[2]+"-"+dateArray[0]+"-"+dateArray[1];
-                additionalQueryPart = " AND date = '" + dateFormat +"'";
-            }
-        }else if(type == 1){
-            additionalQueryPart = " AND money = '" + input + "'";
+        List<Expense> filteredExpenses;
+        try {
+            filteredExpenses = controller.getExpensesFromSearch(input, type, category);
+            expenses = filteredExpenses;
+        } catch (InvalidInputException e) {
+            Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+            return;
         }
-        if (input.equals("")){ //makes it so the search only does a filter if nothing was input
-            additionalQueryPart = "";
-        }
-        Cursor cursor = db.rawQuery("SELECT * FROM expenses WHERE category = '"+category+"' "+additionalQueryPart+" ORDER BY date(date);", null);
-        int idCol = cursor.getColumnIndex("id");
-        int nameCol = cursor.getColumnIndex("name");
-        int moneyCol = cursor.getColumnIndex("money");
-        int dateCol = cursor.getColumnIndex("date");
-        int categoryCol = cursor.getColumnIndex("category");
-        cursor.moveToFirst();
-        if (cursor.getCount() > 0){
-            do{
-                expenses.add(new Expense(cursor.getInt(idCol), cursor.getString(nameCol), cursor.getString(dateCol),
-                        cursor.getString(categoryCol), cursor.getDouble(moneyCol)));
-            }while(cursor.moveToNext());
-        }
-        cursor.close();
+//        db = context.openOrCreateDatabase("ExpensesDB",  MODE_PRIVATE,null);
+//        String additionalQueryPart = "";
+//        if (type == 0){
+//            additionalQueryPart = " AND name = '" + input + "'";
+//        }else if(type == 2){
+//            if (input.equals("")){
+//                additionalQueryPart = "";
+//            }else{
+//                String[] dateArray = input.split("/");
+//                String dateFormat = dateArray[2]+"-"+dateArray[0]+"-"+dateArray[1];
+//                additionalQueryPart = " AND date = '" + dateFormat +"'";
+//            }
+//        }else if(type == 1){
+//            additionalQueryPart = " AND money = '" + input + "'";
+//        }
+//        if (input.equals("")){ //makes it so the search only does a filter if nothing was input
+//            additionalQueryPart = "";
+//        }
+//        Cursor cursor = db.rawQuery("SELECT * FROM expenses WHERE category = '"+category+"' "+additionalQueryPart+" ORDER BY date(date);", null);
+//        int idCol = cursor.getColumnIndex("id");
+//        int nameCol = cursor.getColumnIndex("name");
+//        int moneyCol = cursor.getColumnIndex("money");
+//        int dateCol = cursor.getColumnIndex("date");
+//        int categoryCol = cursor.getColumnIndex("category");
+//        cursor.moveToFirst();
+//        if (cursor.getCount() > 0){
+//            do{
+//                expenses.add(new Expense(cursor.getInt(idCol), cursor.getString(nameCol), cursor.getString(dateCol),
+//                        cursor.getString(categoryCol), cursor.getDouble(moneyCol)));
+//            }while(cursor.moveToNext());
+//        }
+//        cursor.close();
         if (expenses.isEmpty()){
             Toast.makeText(context, "No expenses found.", Toast.LENGTH_SHORT).show();
         }
@@ -236,12 +251,15 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemView
      */
     public void deleteItem(int position){
         try{
-            db.execSQL("DELETE FROM expenses WHERE id = " + expenses.get(position).getId() + ";");
+//            db.execSQL("DELETE FROM expenses WHERE id = " + expenses.get(position).getId() + ";");
+            controller.deleteExpense(expenses.get(position).getId());
             expenses.remove(position);
             Toast.makeText(context, "Item deleted.", Toast.LENGTH_SHORT).show();
             notifyItemRemoved(position);
         } catch (SQLException e){
             Toast.makeText(context, "Error: Problem deleting item from database.", Toast.LENGTH_SHORT).show();
+        } catch (InvalidIDException e) {
+            Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -293,13 +311,13 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemView
     }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder{
-        TextView name;
-        TextView money;
-        TextView category;
-        TextView date;
+        TextView name, money, category, date;
+//        TextView money;
+//        TextView category;
+//        TextView date;
         ImageView categoryIcon;
-        ImageButton edit;
-        ImageButton delete;
+        ImageButton edit, delete;
+//        ImageButton delete;
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.name_textview_itemview);

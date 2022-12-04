@@ -65,26 +65,27 @@ public class ViewActivity extends AppCompatActivity {
     public void searchButtonCallback(View view) {
         EditText searchInput = findViewById(R.id.searchInput_edittext_view);
         String search = searchInput.getText().toString();
-        if (search.equals("")){
-            recViewAdapter.search(search, searchType, category);
-            return;
-        }
-        if (searchType == 0){
-            recViewAdapter.search(search, searchType, category);
-        }else if(searchType == 1){
-            try{
-                Double.parseDouble(search);
-                recViewAdapter.search(search, searchType, category);
-            } catch (NumberFormatException e){
-                Toast.makeText(this, "Invalid monetary amount.", Toast.LENGTH_SHORT).show();
-            }
-        }else{
-            if (dateFormatCheck(search)){
-                recViewAdapter.search(search, searchType, category);
-            }else{
-                Toast.makeText(this, "Invalid date.", Toast.LENGTH_SHORT).show();
-            }
-        }
+        recViewAdapter.search(search, searchType, category);
+//        if (search.equals("")){
+//            recViewAdapter.search(search, searchType, category);
+//            return;
+//        }
+//        if (searchType == 0){
+//            recViewAdapter.search(search, searchType, category);
+//        }else if(searchType == 1){
+//            try{
+//                Double.parseDouble(search);
+//                recViewAdapter.search(search, searchType, category);
+//            } catch (NumberFormatException e){
+//                Toast.makeText(this, "Invalid monetary amount.", Toast.LENGTH_SHORT).show();
+//            }
+//        }else{
+//            if (dateFormatCheck(search)){
+//                recViewAdapter.search(search, searchType, category);
+//            }else{
+//                Toast.makeText(this, "Invalid date.", Toast.LENGTH_SHORT).show();
+//            }
+//        }
     }
 
     private boolean dateFormatCheck(String date) {

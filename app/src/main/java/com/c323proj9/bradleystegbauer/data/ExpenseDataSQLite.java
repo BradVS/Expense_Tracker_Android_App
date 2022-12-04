@@ -91,15 +91,21 @@ public class ExpenseDataSQLite implements ExpenseDataManager{
     public Expense updateExpense(Expense expense) {
 //        TODO: replace when better date formatter is implemented
         String[] dateArray = expense.getDate().split("/");
-        String dateFormat = dateArray[2]+"-"+dateArray[0]+"-"+dateArray[1];
+        String dateFormat;
+        if(dateArray.length == 1){
+            dateFormat = expense.getDate();
+        }else{
+            dateFormat = dateArray[2]+"-"+dateArray[0]+"-"+dateArray[1];
+        }
         db.execSQL("UPDATE expenses SET name = '" + expense.getName() +"', money = '" + expense.getMoney() +"', date = '" + dateFormat +"', category = '" +
                 expense.getCategory() +"' WHERE id = " + expense.getId() + ";");
         return expense;
     }
 
     @Override
-    public Expense deleteExpense(int id) {
+    public Expense deleteExpense(int id) throws NoExpenseFoundException{
+        Expense expense = getExpense(id);
         db.execSQL("DELETE FROM expenses WHERE id = " + id + ";");
-        return null;
+        return expense;
     }
 }

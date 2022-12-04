@@ -27,24 +27,31 @@ public class ExpenseControllerObject implements ExpenseController {
     }
 
     @Override
-    public List<Expense> getExpensesFromSearch(String searchInput, int type, String category) {
+    public List<Expense> getExpensesFromSearch(String searchInput, int type, String category) throws InvalidInputException {
         String additionalQueryPart = "";
+        if (searchInput.equals("")){ //makes it so the search only does a filter if nothing was input
+            return dataManager.getExpensesFromSearch(category, additionalQueryPart);
+        }
         if (type == 0){
             additionalQueryPart = " AND name = '" + searchInput + "'";
         }else if(type == 2){
-            if (searchInput.equals("")){
-                additionalQueryPart = "";
-            }else{
-                //TODO: replace with better data format system
-                String[] dateArray = searchInput.split("/");
-                String dateFormat = dateArray[2]+"-"+dateArray[0]+"-"+dateArray[1];
-                additionalQueryPart = " AND date = '" + dateFormat +"'";
+            //TODO: replace with better data format system
+            String[] dateArray = searchInput.split("/");
+            if (dateArray.length <= 2){
+                throw new InvalidInputException("Enter a valid date");
             }
+            String dateFormat = dateArray[2]+"-"+dateArray[0]+"-"+dateArray[1];
+            additionalQueryPart = " AND date = '" + dateFormat +"'";
         }else if(type == 1){
+            try{
+                double input = Double.parseDouble(searchInput);
+                if (input < 0){
+                    throw new NumberFormatException();
+                }
+            }catch (NumberFormatException e){
+                throw new InvalidInputException("Enter a valid monetary amount");
+            }
             additionalQueryPart = " AND money = '" + searchInput + "'";
-        }
-        if (searchInput.equals("")){ //makes it so the search only does a filter if nothing was input
-            additionalQueryPart = "";
         }
         return dataManager.getExpensesFromSearch(category, additionalQueryPart);
     }
@@ -100,9 +107,13 @@ public class ExpenseControllerObject implements ExpenseController {
     @Override
     public Expense deleteExpense(int id) throws InvalidIDException {
         if (id < 0){
-            throw new InvalidIDException("ID for search is not valid.");
+            throw new InvalidIDException("ID for deletion is not valid.");
         }
-        return dataManager.deleteExpense(id);
+        try{
+            return dataManager.deleteExpense(id);
+        } catch (NoExpenseFoundException e) {
+            throw new InvalidIDException("ID for deletion is not valid.");
+        }
     }
 
     /**

@@ -11,5 +11,5 @@ public interface ExpenseDataManager {
     Expense addExpense(Expense expense);
     Expense getExpense(int id) throws NoExpenseFoundException;
     Expense updateExpense(Expense expense);
-    Expense deleteExpense(int id);
+    Expense deleteExpense(int id) throws NoExpenseFoundException;
 }
