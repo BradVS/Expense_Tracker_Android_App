@@ -7,6 +7,7 @@ import com.c323proj9.bradleystegbauer.data.exceptions.NoExpenseFoundException;
 import com.c323proj9.bradleystegbauer.model.Expense;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ExpenseDataSQLite implements ExpenseDataManager{
@@ -64,7 +65,12 @@ public class ExpenseDataSQLite implements ExpenseDataManager{
         String[] dateArray = expense.getDate().split("/");
         String dateFormat = dateArray[2]+"-"+dateArray[0]+"-"+dateArray[1];
         db.execSQL("INSERT INTO expenses(name, money, date, category) VALUES('"+expense.getName()+"','"+expense.getMoney()+"','"+dateFormat+"','"+expense.getCategory()+"');");
-        return null;
+        Cursor cursor = db.rawQuery("SELECT last_insert_rowid();", null);
+        int colId = cursor.getColumnIndex("last_insert_rowid()");
+        cursor.moveToFirst();
+        Expense expenseWithId = new Expense(cursor.getInt(colId), expense.getName(), expense.getDate(), expense.getCategory(), expense.getMoney());
+        cursor.close();
+        return expenseWithId;
     }
 
     @Override
