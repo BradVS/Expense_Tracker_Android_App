@@ -1,5 +1,7 @@
 package com.c323proj9.bradleystegbauer.controller;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 
 import com.c323proj9.bradleystegbauer.controller.exceptions.InvalidIDException;
@@ -14,8 +16,8 @@ import java.util.List;
 public class ExpenseControllerObject implements ExpenseController {
     private final ExpenseDataManager dataManager;
 
-    public ExpenseControllerObject() {
-        dataManager = new ExpenseDataSQLite();
+    public ExpenseControllerObject(Context context) {
+        dataManager = new ExpenseDataSQLite(context);
     }
 
     @Override

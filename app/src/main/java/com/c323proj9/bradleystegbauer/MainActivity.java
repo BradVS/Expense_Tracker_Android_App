@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.c323proj9.bradleystegbauer.controller.ExpenseController;
 import com.c323proj9.bradleystegbauer.controller.ExpenseControllerObject;
 import com.c323proj9.bradleystegbauer.controller.exceptions.InvalidInputException;
+import com.c323proj9.bradleystegbauer.model.Expense;
 
 public class MainActivity extends AppCompatActivity {
     String category = "";
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        controller = new ExpenseControllerObject();
+        controller = new ExpenseControllerObject(this);
         Spinner spinner = findViewById(R.id.categoryChoice_spinner_main);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.list_choices, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -62,7 +63,11 @@ public class MainActivity extends AppCompatActivity {
         String moneyString = moneyInput.getText().toString();
         String date = dateInput.getText().toString();
         try{
-            controller.addExpense(name, moneyString, date, category);
+            Expense expense = controller.addExpense(name, moneyString, date, category);
+            Toast.makeText(this, expense.getName() + " added!", Toast.LENGTH_SHORT).show();
+            nameInput.setText("");
+            moneyInput.setText("");
+            dateInput.setText("");
         } catch (InvalidInputException e){
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }

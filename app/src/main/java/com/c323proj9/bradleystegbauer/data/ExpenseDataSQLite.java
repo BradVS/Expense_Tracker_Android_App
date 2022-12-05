@@ -1,5 +1,6 @@
 package com.c323proj9.bradleystegbauer.data;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -13,8 +14,9 @@ import java.util.List;
 public class ExpenseDataSQLite implements ExpenseDataManager{
     private final SQLiteDatabase db;
 
-    public ExpenseDataSQLite() {
-        db = SQLiteDatabase.openOrCreateDatabase("ExpensesDB", null);
+    public ExpenseDataSQLite(Context context) {
+        db = context.openOrCreateDatabase("ExpensesDB", Context.MODE_PRIVATE, null);
+//        db = SQLiteDatabase.openOrCreateDatabase("ExpensesDB", null);
         //TODO: wrap this in exception handler?
         db.execSQL("CREATE TABLE IF NOT EXISTS expenses" + "(id integer primary key, name text, money real, date text, category text);");
     }

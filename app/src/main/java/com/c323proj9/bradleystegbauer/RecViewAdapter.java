@@ -44,7 +44,7 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemView
     PopupWindow popupWindow;
     public RecViewAdapter(Context context) {
         this.context = context;
-        this.controller = new ExpenseControllerObject();
+        this.controller = new ExpenseControllerObject(this.context);
         this.expenses = controller.getAllExpenses();
 //        expenses = new ArrayList<>();
 //        db = context.openOrCreateDatabase("ExpensesDB",  MODE_PRIVATE,null);
@@ -171,6 +171,7 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemView
             }
             String[] dateArray = date.split("/");
             String dateFormat = dateArray[2]+"-"+dateArray[0]+"-"+dateArray[1];
+            //  TODO: implement update through controller, THIS IS NOW BROKEN
             db.execSQL("UPDATE expenses SET name = '" + name +"', money = '" + money +"', date = '" + dateFormat +"', category = '" +
                     editCategory +"' WHERE id = " + expenses.get(position).getId() + ";");
             expenses.get(position).setName(name);
@@ -252,9 +253,9 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemView
     public void deleteItem(int position){
         try{
 //            db.execSQL("DELETE FROM expenses WHERE id = " + expenses.get(position).getId() + ";");
-            controller.deleteExpense(expenses.get(position).getId());
+            Expense expense = controller.deleteExpense(expenses.get(position).getId());
             expenses.remove(position);
-            Toast.makeText(context, "Item deleted.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, expense.getName() + " deleted!", Toast.LENGTH_SHORT).show();
             notifyItemRemoved(position);
         } catch (SQLException e){
             Toast.makeText(context, "Error: Problem deleting item from database.", Toast.LENGTH_SHORT).show();
