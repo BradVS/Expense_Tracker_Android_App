@@ -1,10 +1,7 @@
 package com.c323proj9.bradleystegbauer;
 
-import static android.content.Context.MODE_PRIVATE;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.Gravity;
@@ -32,16 +29,15 @@ import com.c323proj9.bradleystegbauer.controller.exceptions.InvalidIDException;
 import com.c323proj9.bradleystegbauer.controller.exceptions.InvalidInputException;
 import com.c323proj9.bradleystegbauer.model.Expense;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemViewHolder> {
     final Context context;
-    private SQLiteDatabase db;
+//    private SQLiteDatabase db;
     private List<Expense> expenses;
     private final ExpenseController controller;
-    String editCategory = "";
-    PopupWindow popupWindow;
+    private String editCategory = "";
+    private PopupWindow popupWindow;
     public RecViewAdapter(Context context) {
         this.context = context;
         this.controller = new ExpenseControllerObject(this.context);
@@ -159,32 +155,42 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemView
      * @param date The date value of the item in the list.
      */
     private void saveEdit(int position, String name, String money, String date) {
-        if (name.equals("") || money.equals("") || date.equals("") || editCategory.equals("")){
-            Toast.makeText(context, "Error: Fill all boxes to save edit.", Toast.LENGTH_SHORT).show();
-            return;
-        }
         try{
-            double newMoney = Double.parseDouble(money);
-            if (!dateFormatCheck(date)){
-                Toast.makeText(context, "Error: Invalid date format. Use mm/dd/yyyy", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            String[] dateArray = date.split("/");
-            String dateFormat = dateArray[2]+"-"+dateArray[0]+"-"+dateArray[1];
-            //  TODO: implement update through controller, THIS IS NOW BROKEN
-            db.execSQL("UPDATE expenses SET name = '" + name +"', money = '" + money +"', date = '" + dateFormat +"', category = '" +
-                    editCategory +"' WHERE id = " + expenses.get(position).getId() + ";");
-            expenses.get(position).setName(name);
-            expenses.get(position).setMoney(newMoney);
-            expenses.get(position).setCategory(editCategory);
-            expenses.get(position).setDate(dateFormat);
+            Expense updatedExpense = new Expense(expenses.get(position).getId(), name, date, editCategory, money);
+            updatedExpense = controller.updateExpense(updatedExpense);
+            expenses.set(position, updatedExpense);
             notifyItemChanged(position);
-            Toast.makeText(context, "Edit saved.", Toast.LENGTH_SHORT).show();
         }catch (NumberFormatException e){
-            Toast.makeText(context, "Error: Enter a valid monetary amount to save.", Toast.LENGTH_SHORT).show();
-        }catch (SQLException e){
-            Toast.makeText(context, "Error: Could not update database.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Input a valid monetary value.", Toast.LENGTH_SHORT).show();
+        }catch (InvalidInputException e){
+            Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+//        if (name.equals("") || money.equals("") || date.equals("") || editCategory.equals("")){
+//            Toast.makeText(context, "Error: Fill all boxes to save edit.", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//        try{
+////            double newMoney = Double.parseDouble(money);
+//            if (!dateFormatCheck(date)){
+//                Toast.makeText(context, "Error: Invalid date format. Use mm/dd/yyyy", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            String[] dateArray = date.split("/");
+//            String dateFormat = dateArray[2]+"-"+dateArray[0]+"-"+dateArray[1];
+//            //  TODO: implement update through controller, THIS IS NOW BROKEN
+//            db.execSQL("UPDATE expenses SET name = '" + name +"', money = '" + money +"', date = '" + dateFormat +"', category = '" +
+//                    editCategory +"' WHERE id = " + expenses.get(position).getId() + ";");
+//            expenses.get(position).setName(name);
+//            expenses.get(position).setMoney(money);
+//            expenses.get(position).setCategory(editCategory);
+//            expenses.get(position).setDate(dateFormat);
+//            notifyItemChanged(position);
+//            Toast.makeText(context, "Edit saved.", Toast.LENGTH_SHORT).show();
+//        }catch (NumberFormatException e){
+//            Toast.makeText(context, "Error: Enter a valid monetary amount to save.", Toast.LENGTH_SHORT).show();
+//        }catch (SQLException e){
+//            Toast.makeText(context, "Error: Could not update database.", Toast.LENGTH_SHORT).show();
+//        }
     }
 
     @Override
