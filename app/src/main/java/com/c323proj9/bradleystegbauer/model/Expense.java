@@ -1,6 +1,8 @@
 package com.c323proj9.bradleystegbauer.model;
 
 import androidx.annotation.NonNull;
+
+import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
@@ -10,9 +12,21 @@ public class Expense {
     private final int id;
     @NonNull
     private String name, date, category;
-    private double money;
+    @NonNull
+    private BigDecimal money;
 
-    public Expense(@NonNull String name, @NonNull String date, @NonNull String category, double money) {
+    public Expense(@NonNull String name, @NonNull String date, @NonNull String category, @NonNull String money) throws NumberFormatException {
+        this.id = -99;
+        this.name = name;
+        this.date = date;
+        this.category = category;
+        this.money = new BigDecimal(money);
+        if (this.money.compareTo(new BigDecimal("0")) < -1){
+            throw new NumberFormatException("Input a number greater than 0");
+        }
+    }
+
+    public Expense(@NonNull String name, @NonNull String date, @NonNull String category, @NonNull BigDecimal money) {
         this.id = -99;
         this.name = name;
         this.date = date;
@@ -20,7 +34,18 @@ public class Expense {
         this.money = money;
     }
 
-    public Expense(int id, @NonNull String name, @NonNull String date, @NonNull String category, double money) {
+    public Expense(int id, @NonNull String name, @NonNull String date, @NonNull String category, @NonNull String money) throws NumberFormatException {
+        this.id = id;
+        this.name = name;
+        this.date = date;
+        this.category = category;
+        this.money = new BigDecimal(money);
+        if (this.money.compareTo(new BigDecimal("0")) < -1){
+            throw new NumberFormatException("Input a number greater than 0");
+        }
+    }
+
+    public Expense(int id, @NonNull String name, @NonNull String date, @NonNull String category, @NonNull BigDecimal money) {
         this.id = id;
         this.name = name;
         this.date = date;
@@ -47,8 +72,13 @@ public class Expense {
         return category;
     }
 
-    public double getMoney() {
+    @NonNull
+    public BigDecimal getMoney() {
         return money;
+    }
+
+    public String getMoneyString() {
+        return this.money.toString();
     }
 
     public void setName(@NonNull String name) {
@@ -63,8 +93,12 @@ public class Expense {
         this.category = category;
     }
 
-    public void setMoney(double money) {
+    public void setMoney(BigDecimal money) {
         this.money = money;
+    }
+
+    public void setMoney(String money) throws NumberFormatException {
+        this.money = new BigDecimal(money);
     }
 
     @NonNull
@@ -84,7 +118,7 @@ public class Expense {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Expense expense = (Expense) o;
-        return id == expense.id && Double.compare(expense.money, money) == 0 && name.equals(expense.name) && date.equals(expense.date) && category.equals(expense.category);
+        return id == expense.id && name.equals(expense.name) && date.equals(expense.date) && category.equals(expense.category) && money.equals(expense.money);
     }
 
     @Override
