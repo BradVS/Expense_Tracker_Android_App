@@ -14,10 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ViewActivity extends AppCompatActivity {
-    String category;
-    RecyclerView recyclerView;
-    RecViewAdapter recViewAdapter;
-    int searchType = 0;
+    private String category;
+    private RecyclerView recyclerView;
+    private RecViewAdapter recViewAdapter;
+    private int searchType = 0;
 
 
     @Override
@@ -66,67 +66,6 @@ public class ViewActivity extends AppCompatActivity {
         EditText searchInput = findViewById(R.id.searchInput_edittext_view);
         String search = searchInput.getText().toString();
         recViewAdapter.search(search, searchType, category);
-//        if (search.equals("")){
-//            recViewAdapter.search(search, searchType, category);
-//            return;
-//        }
-//        if (searchType == 0){
-//            recViewAdapter.search(search, searchType, category);
-//        }else if(searchType == 1){
-//            try{
-//                Double.parseDouble(search);
-//                recViewAdapter.search(search, searchType, category);
-//            } catch (NumberFormatException e){
-//                Toast.makeText(this, "Invalid monetary amount.", Toast.LENGTH_SHORT).show();
-//            }
-//        }else{
-//            if (dateFormatCheck(search)){
-//                recViewAdapter.search(search, searchType, category);
-//            }else{
-//                Toast.makeText(this, "Invalid date.", Toast.LENGTH_SHORT).show();
-//            }
-//        }
     }
 
-    private boolean dateFormatCheck(String date) {
-        String[] dateSplit = date.split("/");
-//        first check if split was into 3 parts
-        if (dateSplit.length != 3){
-            return false;
-        }
-//        check if month, day, and year are correct length
-        if (dateSplit[0].length() != 2 || dateSplit[1].length() != 2 ||dateSplit[2].length() != 4){
-            return false;
-        }
-//        try making them into integers
-        try{
-            int month = Integer.parseInt(dateSplit[0]);
-            int day = Integer.parseInt(dateSplit[1]);
-            int year = Integer.parseInt(dateSplit[2]);
-
-//            check if they are within bounds
-//            start with month, year, and day total bounds
-            if(month < 1 || month > 12 || day < 1 || day > 31 || year < 1){
-                return false;
-            }
-//            check for leap years
-            if(year % 4 != 0 && month == 2 && day > 28){
-//                fail condition (common year)
-                return false;
-            } else if(year % 100 != 0 && month == 2 && day > 29){
-//                fail condition (leap year)
-                return false;
-            } else if(year % 400 != 0 && month == 2 && day > 28){
-//                fail condition (common year)
-                return false;
-            } else if(month == 2 && day > 29){
-//                fail condition (leap year)
-                return false;
-            }
-//            if it made it past this, leap year rules have been followed (based on Gregorian calendar)
-        } catch (NumberFormatException e){
-            return false;
-        }
-        return true;
-    }
 }

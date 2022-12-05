@@ -32,8 +32,7 @@ import com.c323proj9.bradleystegbauer.model.Expense;
 import java.util.List;
 
 public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemViewHolder> {
-    final Context context;
-//    private SQLiteDatabase db;
+    private final Context context;
     private List<Expense> expenses;
     private final ExpenseController controller;
     private String editCategory = "";
@@ -42,25 +41,6 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemView
         this.context = context;
         this.controller = new ExpenseControllerObject(this.context);
         this.expenses = controller.getAllExpenses();
-//        expenses = new ArrayList<>();
-//        db = context.openOrCreateDatabase("ExpensesDB",  MODE_PRIVATE,null);
-//        Cursor cursor = db.rawQuery("SELECT * FROM expenses ORDER BY date(date);", null);
-//        int idCol = cursor.getColumnIndex("id");
-//        int nameCol = cursor.getColumnIndex("name");
-//        int moneyCol = cursor.getColumnIndex("money");
-//        int dateCol = cursor.getColumnIndex("date");
-//        int categoryCol = cursor.getColumnIndex("category");
-//        cursor.moveToFirst();
-//        if (cursor.getCount() > 0){
-//            do{
-//                expenses.add(new Expense(cursor.getInt(idCol), cursor.getString(nameCol), cursor.getString(dateCol),
-//                        cursor.getString(categoryCol), cursor.getDouble(moneyCol)));
-//            }while(cursor.moveToNext());
-//        }
-//        if(expenses.isEmpty()){
-//            Toast.makeText(context, "No expenses found.", Toast.LENGTH_SHORT).show();
-//        }
-//        cursor.close();
     }
 
     @NonNull
@@ -123,6 +103,7 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemView
         namePop.setText(expenses.get(position).getName());
         moneyPop.setText(String.valueOf(expenses.get(position).getMoney()));
         String[] dateArray = expenses.get(position).getDate().split("-");
+        //TODO: app breaks here when trying to edit item that was just edited. May need to implement central date format for Expense items
         String correctDate = dateArray[1]+"/"+dateArray[2]+"/"+dateArray[0];
         datePop.setText(correctDate);
         catPop.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -165,32 +146,6 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemView
         }catch (InvalidInputException e){
             Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-//        if (name.equals("") || money.equals("") || date.equals("") || editCategory.equals("")){
-//            Toast.makeText(context, "Error: Fill all boxes to save edit.", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//        try{
-////            double newMoney = Double.parseDouble(money);
-//            if (!dateFormatCheck(date)){
-//                Toast.makeText(context, "Error: Invalid date format. Use mm/dd/yyyy", Toast.LENGTH_SHORT).show();
-//                return;
-//            }
-//            String[] dateArray = date.split("/");
-//            String dateFormat = dateArray[2]+"-"+dateArray[0]+"-"+dateArray[1];
-//            //  TODO: implement update through controller, THIS IS NOW BROKEN
-//            db.execSQL("UPDATE expenses SET name = '" + name +"', money = '" + money +"', date = '" + dateFormat +"', category = '" +
-//                    editCategory +"' WHERE id = " + expenses.get(position).getId() + ";");
-//            expenses.get(position).setName(name);
-//            expenses.get(position).setMoney(money);
-//            expenses.get(position).setCategory(editCategory);
-//            expenses.get(position).setDate(dateFormat);
-//            notifyItemChanged(position);
-//            Toast.makeText(context, "Edit saved.", Toast.LENGTH_SHORT).show();
-//        }catch (NumberFormatException e){
-//            Toast.makeText(context, "Error: Enter a valid monetary amount to save.", Toast.LENGTH_SHORT).show();
-//        }catch (SQLException e){
-//            Toast.makeText(context, "Error: Could not update database.", Toast.LENGTH_SHORT).show();
-//        }
     }
 
     @Override
@@ -214,38 +169,6 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemView
             Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
             return;
         }
-//        db = context.openOrCreateDatabase("ExpensesDB",  MODE_PRIVATE,null);
-//        String additionalQueryPart = "";
-//        if (type == 0){
-//            additionalQueryPart = " AND name = '" + input + "'";
-//        }else if(type == 2){
-//            if (input.equals("")){
-//                additionalQueryPart = "";
-//            }else{
-//                String[] dateArray = input.split("/");
-//                String dateFormat = dateArray[2]+"-"+dateArray[0]+"-"+dateArray[1];
-//                additionalQueryPart = " AND date = '" + dateFormat +"'";
-//            }
-//        }else if(type == 1){
-//            additionalQueryPart = " AND money = '" + input + "'";
-//        }
-//        if (input.equals("")){ //makes it so the search only does a filter if nothing was input
-//            additionalQueryPart = "";
-//        }
-//        Cursor cursor = db.rawQuery("SELECT * FROM expenses WHERE category = '"+category+"' "+additionalQueryPart+" ORDER BY date(date);", null);
-//        int idCol = cursor.getColumnIndex("id");
-//        int nameCol = cursor.getColumnIndex("name");
-//        int moneyCol = cursor.getColumnIndex("money");
-//        int dateCol = cursor.getColumnIndex("date");
-//        int categoryCol = cursor.getColumnIndex("category");
-//        cursor.moveToFirst();
-//        if (cursor.getCount() > 0){
-//            do{
-//                expenses.add(new Expense(cursor.getInt(idCol), cursor.getString(nameCol), cursor.getString(dateCol),
-//                        cursor.getString(categoryCol), cursor.getDouble(moneyCol)));
-//            }while(cursor.moveToNext());
-//        }
-//        cursor.close();
         if (expenses.isEmpty()){
             Toast.makeText(context, "No expenses found.", Toast.LENGTH_SHORT).show();
         }
@@ -270,61 +193,10 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemView
         }
     }
 
-    /**
-     * Checks to see if the date string entered is a valid date.
-     * @param date String holding the date
-     * @return True if valid, false otherwise
-     */
-    private boolean dateFormatCheck(String date) {
-        String[] dateSplit = date.split("/");
-//        first check if split was into 3 parts
-        if (dateSplit.length != 3){
-            return false;
-        }
-//        check if month, day, and year are correct length
-        if (dateSplit[0].length() != 2 || dateSplit[1].length() != 2 ||dateSplit[2].length() != 4){
-            return false;
-        }
-//        try making them into integers
-        try{
-            int month = Integer.parseInt(dateSplit[0]);
-            int day = Integer.parseInt(dateSplit[1]);
-            int year = Integer.parseInt(dateSplit[2]);
-
-//            check if they are within bounds
-//            start with month, year, and day total bounds
-            if(month < 1 || month > 12 || day < 1 || day > 31 || year < 1){
-                return false;
-            }
-//            check for leap years
-            if(year % 4 != 0 && month == 2 && day > 28){
-//                fail condition (common year)
-                return false;
-            } else if(year % 100 != 0 && month == 2 && day > 29){
-//                fail condition (leap year)
-                return false;
-            } else if(year % 400 != 0 && month == 2 && day > 28){
-//                fail condition (common year)
-                return false;
-            } else if(month == 2 && day > 29){
-//                fail condition (leap year)
-                return false;
-            }
-//            if it made it past this, leap year rules have been followed (based on Gregorian calendar)
-        } catch (NumberFormatException e){
-            return false;
-        }
-        return true;
-    }
-
     public static class ItemViewHolder extends RecyclerView.ViewHolder{
         TextView name, money, category, date;
-//        TextView money;
-//        TextView category;
-//        TextView date;
         ImageView categoryIcon;
         ImageButton edit, delete;
-//        ImageButton delete;
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.name_textview_itemview);
