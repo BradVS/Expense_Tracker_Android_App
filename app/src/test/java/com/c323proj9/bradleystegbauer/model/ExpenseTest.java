@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 public class ExpenseTest {
@@ -14,9 +15,9 @@ public class ExpenseTest {
 
     @Before
     public void setUp() throws Exception {
-        expense1 = new Expense(0, "TestExpense1", "11/12/2021", "Food", 12.12);
-        expense2 = new Expense(1, "TestExpense2", "09/11/2022", "Miscellaneous", 34.21);
-        noIdExpense = new Expense("TestExpense3", "06/21/2020", "Shopping", 22.00);
+        expense1 = new Expense(0, "TestExpense1", "11/12/2021", "Food", "12.12");
+        expense2 = new Expense(1, "TestExpense2", "09/11/2022", "Miscellaneous", "34.21");
+        noIdExpense = new Expense("TestExpense3", "06/21/2020", "Shopping", "22.00");
     }
 
     @Test
@@ -58,9 +59,16 @@ public class ExpenseTest {
 
     @Test
     public void getMoney() {
-        assertEquals(expense1.getMoney(), 12.12, .0000001);
-        assertEquals(expense2.getMoney(), 34.21, .0000001);
-        assertEquals(noIdExpense.getMoney(), 22.00, .0000001);
+        assertEquals(expense1.getMoney(), new BigDecimal("12.12"));
+        assertEquals(expense2.getMoney(), new BigDecimal("34.21"));
+        assertEquals(noIdExpense.getMoney(), new BigDecimal("22.00"));
+    }
+
+    @Test
+    public void getMoneyString() {
+        assertEquals(expense1.getMoneyString(), "12.12" );
+        assertEquals(expense2.getMoneyString(), "34.21");
+        assertEquals(noIdExpense.getMoneyString(), "22.00");
     }
 
     @Test
@@ -95,12 +103,12 @@ public class ExpenseTest {
 
     @Test
     public void setMoney() {
-        expense1.setMoney(10.41);
-        assertNotEquals(expense1.getMoney(), 12.12, .0000001);
-        assertEquals(expense1.getMoney(), 10.41, .0000001);
-        expense2.setMoney(9.87);
-        assertNotEquals(expense2.getMoney(), 34.21, .0000001);
-        assertEquals(expense2.getMoney(), 9.87, .0000001);
+        expense1.setMoney("10.41");
+        assertNotEquals(expense1.getMoneyString(), "12.12");
+        assertEquals(expense1.getMoneyString(), "10.41");
+        expense2.setMoney(new BigDecimal("9.87"));
+        assertNotEquals(expense2.getMoneyString(), "34.21");
+        assertEquals(expense2.getMoneyString(), "9.87");
     }
 
     @Test
@@ -123,11 +131,11 @@ public class ExpenseTest {
 
     @Test
     public void testEquals() {
-        Expense expenseOneCopy = new Expense(0, "TestExpense1", "11/12/2021", "Food", 12.12);
+        Expense expenseOneCopy = new Expense(0, "TestExpense1", "11/12/2021", "Food", "12.12");
         assertEquals(expense1, expenseOneCopy);
-        Expense expenseTwoCopy = new Expense(1, "TestExpense2", "09/11/2022", "Miscellaneous", 34.21);
+        Expense expenseTwoCopy = new Expense(1, "TestExpense2", "09/11/2022", "Miscellaneous", "34.21");
         assertEquals(expense2, expenseTwoCopy);
-        Expense noIdExpenseCopy = new Expense("TestExpense3", "06/21/2020", "Shopping", 22.00);
+        Expense noIdExpenseCopy = new Expense("TestExpense3", "06/21/2020", "Shopping", "22.00");
         assertEquals(noIdExpense, noIdExpenseCopy);
         assertNotEquals(expense1, expense2);
         assertNotEquals(expense2, noIdExpense);

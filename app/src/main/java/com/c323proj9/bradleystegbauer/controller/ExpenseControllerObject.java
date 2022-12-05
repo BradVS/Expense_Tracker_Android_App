@@ -78,8 +78,7 @@ public class ExpenseControllerObject implements ExpenseController {
             throw new InvalidInputException("Please enter a valid date.");
         }
         try{
-            double money = Double.parseDouble(moneyString);
-            Expense expense = new Expense(name, date, category, money);
+            Expense expense = new Expense(name, date, category, moneyString);
             return dataManager.addExpense(expense);
         }catch (NumberFormatException e){
             throw new InvalidInputException("Please enter a valid monetary value.");
@@ -99,8 +98,14 @@ public class ExpenseControllerObject implements ExpenseController {
     }
 
     @Override
-    public Expense updateExpense(Expense expense) {
-        return null;
+    public Expense updateExpense(Expense expense) throws InvalidInputException {
+        if(expense.getName().isEmpty() || expense.getDate().isEmpty() || expense.getCategory().isEmpty()){
+            throw new InvalidInputException("Please enter name, date, and select a category.");
+        }
+        if (!dateFormatCheck(expense.getDate())){
+            throw new InvalidInputException("Please enter a valid date.");
+        }
+        return dataManager.updateExpense(expense);
     }
 
     @Override

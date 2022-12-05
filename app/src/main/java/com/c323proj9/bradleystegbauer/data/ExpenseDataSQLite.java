@@ -8,7 +8,6 @@ import com.c323proj9.bradleystegbauer.data.exceptions.NoExpenseFoundException;
 import com.c323proj9.bradleystegbauer.model.Expense;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ExpenseDataSQLite implements ExpenseDataManager{
@@ -34,7 +33,7 @@ public class ExpenseDataSQLite implements ExpenseDataManager{
         if (cursor.getCount() > 0){
             do{
                 expenses.add(new Expense(cursor.getInt(idCol), cursor.getString(nameCol), cursor.getString(dateCol),
-                        cursor.getString(categoryCol), cursor.getDouble(moneyCol)));
+                        cursor.getString(categoryCol), cursor.getString(moneyCol)));
             }while(cursor.moveToNext());
         }
         cursor.close();
@@ -54,7 +53,7 @@ public class ExpenseDataSQLite implements ExpenseDataManager{
         if (cursor.getCount() > 0){
             do{
                 expenses.add(new Expense(cursor.getInt(idCol), cursor.getString(nameCol), cursor.getString(dateCol),
-                        cursor.getString(categoryCol), cursor.getDouble(moneyCol)));
+                        cursor.getString(categoryCol), cursor.getString(moneyCol)));
             }while(cursor.moveToNext());
         }
         cursor.close();
@@ -89,7 +88,7 @@ public class ExpenseDataSQLite implements ExpenseDataManager{
             throw new NoExpenseFoundException("Expense not found.");
         }
         Expense expense = new Expense(cursor.getInt(idCol), cursor.getString(nameCol), cursor.getString(dateCol),
-                cursor.getString(categoryCol), cursor.getDouble(moneyCol));
+                cursor.getString(categoryCol), cursor.getString(moneyCol));
 
         cursor.close();
         return expense;
