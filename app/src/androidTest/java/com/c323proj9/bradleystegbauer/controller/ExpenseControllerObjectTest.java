@@ -5,6 +5,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
+import android.os.Build;
+import android.util.Log;
+
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -158,6 +161,7 @@ public class ExpenseControllerObjectTest {
         assertTrue(expenses.size() > 0);
         Expense expense = expenses.get(0);
         expense.setName("Updated Test Object Name");
+        Log.e("ERROR:", expense.toString());
         controller.updateExpense(expense);
         List<Expense> expenses1 = controller.getAllExpenses();
         assertEquals(expenses.size(), expenses1.size());
