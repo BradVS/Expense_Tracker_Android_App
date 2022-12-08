@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.c323proj9.bradleystegbauer.data.exceptions.NoExpenseFoundException;
@@ -14,7 +15,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RuntimeEnvironment;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class ExpenseDataSQLiteTest {
 
     @Before
     public void setUp(){
-        dataManager = new ExpenseDataSQLite(RuntimeEnvironment.systemContext);
+        dataManager = new ExpenseDataSQLite(ApplicationProvider.getApplicationContext());
         dataManager.addExpense(new Expense("TestExpense", "12/12/2022", "Food", "12.12"));
     }
 
