@@ -21,7 +21,7 @@ public class Expense {
         this.date = date;
         this.category = category;
         this.money = new BigDecimal(money);
-        if (this.money.compareTo(new BigDecimal("0")) < -1){
+        if (this.money.compareTo(new BigDecimal("0")) <= -1){
             throw new NumberFormatException("Input a number greater than 0");
         }
     }
@@ -40,7 +40,7 @@ public class Expense {
         this.date = date;
         this.category = category;
         this.money = new BigDecimal(money);
-        if (this.money.compareTo(new BigDecimal("0")) < -1){
+        if (this.money.compareTo(new BigDecimal("0")) <= -1){
             throw new NumberFormatException("Input a number greater than 0");
         }
     }
