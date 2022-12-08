@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class ExpenseTest {
@@ -42,9 +43,15 @@ public class ExpenseTest {
         assertNotNull(expense1.getDate());
         assertNotNull(expense2.getDate());
         assertNotNull(noIdExpense.getDate());
-        assertEquals(expense1.getDate(), "11/12/2021");
-        assertEquals(expense2.getDate(), "09/11/2022");
-        assertEquals(noIdExpense.getDate(), "06/21/2020");
+//        assertEquals(expense1.getDate(), "11/12/2021");
+        assertEquals(expense1.getDate(), LocalDate.parse("2021-11-12"));
+        assertEquals(expense1.getDateString(), "2021-11-12");
+//        assertEquals(expense2.getDate(), "09/11/2022");
+        assertEquals(expense2.getDate(), LocalDate.parse("2022-09-11"));
+        assertEquals(expense2.getDateString(), "2022-09-11");
+//        assertEquals(noIdExpense.getDate(), "06/21/2020");
+        assertEquals(noIdExpense.getDate(), LocalDate.parse("2020-06-21"));
+        assertEquals(noIdExpense.getDateString(), "2020-06-21");
     }
 
     @Test
@@ -85,10 +92,12 @@ public class ExpenseTest {
     public void setDate() {
         expense1.setDate("11/12/2022");
         assertNotEquals(expense1.getDate(), "11/12/2021");
-        assertEquals(expense1.getDate(), "11/12/2022");
+        assertNotEquals(expense1.getDateString(), "11/12/2022");
+        assertEquals(expense1.getDate(), LocalDate.parse("2022-11-12"));
         expense2.setDate("08/11/2011");
         assertNotEquals(expense2.getDate(), "09/11/2022");
-        assertEquals(expense2.getDate(), "08/11/2011");
+        assertNotEquals(expense2.getDate(), "08/11/2011");
+        assertEquals(expense2.getDate(), LocalDate.parse("2011-08-11"));
     }
 
     @Test
