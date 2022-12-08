@@ -63,13 +63,13 @@ public class ExpenseDataSQLite implements ExpenseDataManager{
     @Override
     public Expense addExpense(Expense expense) {
         //TODO: replace this by implementing better date formatting system
-        String[] dateArray = expense.getDate().split("/");
-        String dateFormat = dateArray[2]+"-"+dateArray[0]+"-"+dateArray[1];
-        db.execSQL("INSERT INTO expenses(name, money, date, category) VALUES('"+expense.getName()+"','"+expense.getMoney()+"','"+dateFormat+"','"+expense.getCategory()+"');");
+//        String[] dateArray = expense.getDate().split("/");
+//        String dateFormat = dateArray[2]+"-"+dateArray[0]+"-"+dateArray[1];
+        db.execSQL("INSERT INTO expenses(name, money, date, category) VALUES('"+expense.getName()+"','"+expense.getMoney()+"','"+expense.getDateString()+"','"+expense.getCategory()+"');");
         Cursor cursor = db.rawQuery("SELECT last_insert_rowid();", null);
         int colId = cursor.getColumnIndex("last_insert_rowid()");
         cursor.moveToFirst();
-        Expense expenseWithId = new Expense(cursor.getInt(colId), expense.getName(), expense.getDate(), expense.getCategory(), expense.getMoney());
+        Expense expenseWithId = new Expense(cursor.getInt(colId), expense.getName(), expense.getCategory(), expense.getDate(),  expense.getMoney());
         cursor.close();
         return expenseWithId;
     }
@@ -97,14 +97,14 @@ public class ExpenseDataSQLite implements ExpenseDataManager{
     @Override
     public Expense updateExpense(Expense expense) {
 //        TODO: replace when better date formatter is implemented
-        String[] dateArray = expense.getDate().split("/");
-        String dateFormat;
-        if(dateArray.length == 1){
-            dateFormat = expense.getDate();
-        }else{
-            dateFormat = dateArray[2]+"-"+dateArray[0]+"-"+dateArray[1];
-        }
-        db.execSQL("UPDATE expenses SET name = '" + expense.getName() +"', money = '" + expense.getMoney() +"', date = '" + dateFormat +"', category = '" +
+//        String[] dateArray = expense.getDate().split("/");
+//        String dateFormat;
+//        if(dateArray.length == 1){
+//            dateFormat = expense.getDate();
+//        }else{
+//            dateFormat = dateArray[2]+"-"+dateArray[0]+"-"+dateArray[1];
+//        }
+        db.execSQL("UPDATE expenses SET name = '" + expense.getName() +"', money = '" + expense.getMoney() +"', date = '" + expense.getDateString() +"', category = '" +
                 expense.getCategory() +"' WHERE id = " + expense.getId() + ";");
         return expense;
     }

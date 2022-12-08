@@ -68,7 +68,7 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemView
                 break;
         }
         holder.name.setText(this.expenses.get(position).getName());
-        holder.date.setText(this.expenses.get(position).getDate());
+        holder.date.setText(this.expenses.get(position).getDateString());
         holder.money.setText(String.valueOf(this.expenses.get(position).getMoney()));
         holder.category.setText(this.expenses.get(position).getCategory());
         holder.delete.setOnClickListener(new View.OnClickListener() {
@@ -102,7 +102,8 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemView
         Button save = popupView.findViewById(R.id.editButton_button_popup);
         namePop.setText(expenses.get(position).getName());
         moneyPop.setText(String.valueOf(expenses.get(position).getMoney()));
-        String[] dateArray = expenses.get(position).getDate().split("-");
+        //TODO: modify when replacing date text input with better input form
+        String[] dateArray = expenses.get(position).getDateString().split("-");
         //TODO: app breaks here when trying to edit item that was just edited. May need to implement central date format for Expense items
         String correctDate = dateArray[1]+"/"+dateArray[2]+"/"+dateArray[0];
         datePop.setText(correctDate);

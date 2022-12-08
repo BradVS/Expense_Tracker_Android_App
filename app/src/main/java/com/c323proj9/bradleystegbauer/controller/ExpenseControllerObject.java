@@ -57,12 +57,13 @@ public class ExpenseControllerObject implements ExpenseController {
 
     @Override
     public Expense addExpense(Expense expense) throws InvalidInputException {
-        if(expense.getName().isEmpty() || expense.getDate().isEmpty() || expense.getCategory().isEmpty()){
+//        TODO: possibly modify expense.getDateString().isEmpty() to something else
+        if(expense.getName().isEmpty() || expense.getDateString().isEmpty() || expense.getCategory().isEmpty()){
             throw new InvalidInputException("Please enter name, date, and select a category.");
         }
-        if (!dateFormatCheck(expense.getDate())){
-            throw new InvalidInputException("Please enter a valid date.");
-        }
+//        if (!dateFormatCheck(expense.getDate())){
+//            throw new InvalidInputException("Please enter a valid date.");
+//        }
         if (expense.getId() != -99){
             throw new InvalidInputException("This entry was already added.");
         }
@@ -99,12 +100,13 @@ public class ExpenseControllerObject implements ExpenseController {
 
     @Override
     public Expense updateExpense(Expense expense) throws InvalidInputException {
-        if(expense.getName().isEmpty() || expense.getDate().isEmpty() || expense.getCategory().isEmpty()){
+        //TODO: possibly modify expense.getDateString().isEmpty() to something else
+        if(expense.getName().isEmpty() || expense.getDateString().isEmpty() || expense.getCategory().isEmpty()){
             throw new InvalidInputException("Please enter name, date, and select a category.");
         }
-        if (!dateFormatCheck(expense.getDate())){
-            throw new InvalidInputException("Please enter a valid date.");
-        }
+//        if (!dateFormatCheck(expense.getDate())){
+//            throw new InvalidInputException("Please enter a valid date.");
+//        }
         return dataManager.updateExpense(expense);
     }
 
