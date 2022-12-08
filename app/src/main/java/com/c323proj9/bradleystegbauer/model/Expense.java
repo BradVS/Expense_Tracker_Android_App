@@ -3,6 +3,8 @@ package com.c323proj9.bradleystegbauer.model;
 import androidx.annotation.NonNull;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 /**
@@ -11,14 +13,20 @@ import java.util.Objects;
 public class Expense {
     private final int id;
     @NonNull
-    private String name, date, category;
+    private String name, category;
+    @NonNull
+    private LocalDate date;
     @NonNull
     private BigDecimal money;
 
     public Expense(@NonNull String name, @NonNull String date, @NonNull String category, @NonNull String money) throws NumberFormatException {
         this.id = -99;
         this.name = name;
-        this.date = date;
+        if (date.split("/").length > 1){
+            this.date = LocalDate.parse(date, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        }else{
+            this.date = LocalDate.parse(date);
+        }
         this.category = category;
         this.money = new BigDecimal(money);
         if (this.money.compareTo(new BigDecimal("0")) <= -1){
@@ -29,7 +37,11 @@ public class Expense {
     public Expense(@NonNull String name, @NonNull String date, @NonNull String category, @NonNull BigDecimal money) {
         this.id = -99;
         this.name = name;
-        this.date = date;
+        if (date.split("/").length > 1){
+            this.date = LocalDate.parse(date, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        }else{
+            this.date = LocalDate.parse(date);
+        }
         this.category = category;
         this.money = money;
     }
@@ -37,7 +49,11 @@ public class Expense {
     public Expense(int id, @NonNull String name, @NonNull String date, @NonNull String category, @NonNull String money) throws NumberFormatException {
         this.id = id;
         this.name = name;
-        this.date = date;
+        if (date.split("/").length > 1){
+            this.date = LocalDate.parse(date, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        }else{
+            this.date = LocalDate.parse(date);
+        }
         this.category = category;
         this.money = new BigDecimal(money);
         if (this.money.compareTo(new BigDecimal("0")) <= -1){
@@ -48,8 +64,28 @@ public class Expense {
     public Expense(int id, @NonNull String name, @NonNull String date, @NonNull String category, @NonNull BigDecimal money) {
         this.id = id;
         this.name = name;
-        this.date = date;
+        if (date.split("/").length > 1){
+            this.date = LocalDate.parse(date, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        }else{
+            this.date = LocalDate.parse(date);
+        }
         this.category = category;
+        this.money = money;
+    }
+
+    public Expense(@NonNull String name, @NonNull String category, @NonNull LocalDate date, @NonNull BigDecimal money) {
+        this.id = -99;
+        this.name = name;
+        this.category = category;
+        this.date = date;
+        this.money = money;
+    }
+
+    public Expense(int id, @NonNull String name, @NonNull String category, @NonNull LocalDate date, @NonNull BigDecimal money) {
+        this.id = id;
+        this.name = name;
+        this.category = category;
+        this.date = date;
         this.money = money;
     }
 
@@ -63,8 +99,13 @@ public class Expense {
     }
 
     @NonNull
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
+    }
+
+    @NonNull
+    public String getDateString() {
+        return this.date.toString();
     }
 
     @NonNull
@@ -86,14 +127,18 @@ public class Expense {
     }
 
     public void setDate(@NonNull String date) {
-        this.date = date;
+        if (date.split("/").length > 1){
+            this.date = LocalDate.parse(date, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        }else{
+            this.date = LocalDate.parse(date);
+        }
     }
 
     public void setCategory(@NonNull String category) {
         this.category = category;
     }
 
-    public void setMoney(BigDecimal money) {
+    public void setMoney(@NonNull BigDecimal money) {
         this.money = money;
     }
 
