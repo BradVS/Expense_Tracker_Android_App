@@ -27,7 +27,8 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-        String dateString = new StringBuilder().append(year).append("-").append(month).append("-").append(dayOfMonth).toString();
+        month++;
+        String dateString = new StringBuilder().append(year).append("-").append((month < 10 ? "0" + month : month)).append("-").append((dayOfMonth < 10 ? "0" + dayOfMonth : dayOfMonth)).toString();
         this.dateInfoConsumer.getDateString(dateString);
     }
 }

@@ -7,7 +7,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -57,7 +56,7 @@ public class ViewActivity extends AppCompatActivity {
             }
         });
         recyclerView = findViewById(R.id.expensesList_recyclerview_view);
-        recViewAdapter = new RecViewAdapter(this);
+        recViewAdapter = new RecViewAdapter(this, this);
         recyclerView.setAdapter(recViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }

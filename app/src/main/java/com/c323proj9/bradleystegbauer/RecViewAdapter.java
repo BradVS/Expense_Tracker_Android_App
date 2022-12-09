@@ -3,7 +3,6 @@ package com.c323proj9.bradleystegbauer;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,24 +20,30 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.c323proj9.bradleystegbauer.controller.ExpenseController;
 import com.c323proj9.bradleystegbauer.controller.ExpenseControllerObject;
 import com.c323proj9.bradleystegbauer.controller.exceptions.InvalidIDException;
 import com.c323proj9.bradleystegbauer.controller.exceptions.InvalidInputException;
+import com.c323proj9.bradleystegbauer.datepicker.DateInfoConsumer;
+import com.c323proj9.bradleystegbauer.datepicker.DatePickerFragment;
 import com.c323proj9.bradleystegbauer.model.Expense;
 
 import java.util.List;
 
 public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemViewHolder> {
     private final Context context;
+    private final FragmentActivity fragmentActivity;
     private List<Expense> expenses;
     private final ExpenseController controller;
     private String editCategory = "";
     private PopupWindow popupWindow;
-    public RecViewAdapter(Context context) {
+    public RecViewAdapter(Context context, FragmentActivity fragmentActivity) {
         this.context = context;
+        this.fragmentActivity = fragmentActivity;
         this.controller = new ExpenseControllerObject(this.context);
         this.expenses = controller.getAllExpenses();
     }
@@ -103,10 +108,24 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemView
         namePop.setText(expenses.get(position).getName());
         moneyPop.setText(String.valueOf(expenses.get(position).getMoney()));
         //TODO: modify when replacing date text input with better input form
-        String[] dateArray = expenses.get(position).getDateString().split("-");
+//        String[] dateArray = expenses.get(position).getDateString().split("-");
         //TODO: app breaks here when trying to edit item that was just edited. May need to implement central date format for Expense items
-        String correctDate = dateArray[1]+"/"+dateArray[2]+"/"+dateArray[0];
-        datePop.setText(correctDate);
+//        String correctDate = dateArray[1]+"/"+dateArray[2]+"/"+dateArray[0];
+//        datePop.setText(correctDate);
+        datePop.setText(expenses.get(position).getDateString());
+        datePop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFragment dialogFragment = new DatePickerFragment(new DateInfoConsumer() {
+                    @Override
+                    public void getDateString(String dateString) {
+                        datePop.setText(dateString);
+                    }
+                });
+                //TODO: see if there is a way to do this without adding FragmentActivity to this class
+                dialogFragment.show(fragmentActivity.getSupportFragmentManager(), "datePicker");
+            }
+        });
         catPop.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
