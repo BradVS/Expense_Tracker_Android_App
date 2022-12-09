@@ -75,9 +75,9 @@ public class ExpenseControllerObject implements ExpenseController {
         if (name.equals("") || moneyString.equals("") || date.equals("") || category.equals("")){
             throw new InvalidInputException("Please enter name, money value, date, and select a category.");
         }
-        if (!dateFormatCheck(date)){
-            throw new InvalidInputException("Please enter a valid date.");
-        }
+//        if (!dateFormatCheck(date)){
+//            throw new InvalidInputException("Please enter a valid date.");
+//        }
         try{
             Expense expense = new Expense(name, date, category, moneyString);
             return dataManager.addExpense(expense);

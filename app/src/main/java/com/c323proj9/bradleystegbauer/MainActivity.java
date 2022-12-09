@@ -1,8 +1,6 @@
 package com.c323proj9.bradleystegbauer;
 
 import android.content.Intent;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,13 +10,16 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
 import com.c323proj9.bradleystegbauer.controller.ExpenseController;
 import com.c323proj9.bradleystegbauer.controller.ExpenseControllerObject;
 import com.c323proj9.bradleystegbauer.controller.exceptions.InvalidInputException;
+import com.c323proj9.bradleystegbauer.datepicker.DateInfoConsumer;
+import com.c323proj9.bradleystegbauer.datepicker.DatePickerFragment;
 import com.c323proj9.bradleystegbauer.model.Expense;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DateInfoConsumer {
     private String category = "";
     private ExpenseController controller;
 
@@ -72,5 +73,16 @@ public class MainActivity extends AppCompatActivity {
      */
     public void viewExpensesCallback(View view) {
         startActivity(new Intent(MainActivity.this, ViewActivity.class));
+    }
+
+    public void showDatePickerDialog(View view) {
+        DialogFragment dialogFragment = new DatePickerFragment(this);
+        dialogFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+    @Override
+    public void getDateString(String dateString) {
+        EditText dateInput = findViewById(R.id.dateInput_edittext_main);
+        dateInput.setText(dateString);
     }
 }
