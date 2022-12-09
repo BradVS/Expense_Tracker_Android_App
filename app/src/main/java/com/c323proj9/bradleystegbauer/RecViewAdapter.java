@@ -113,17 +113,20 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemView
 //        String correctDate = dateArray[1]+"/"+dateArray[2]+"/"+dateArray[0];
 //        datePop.setText(correctDate);
         datePop.setText(expenses.get(position).getDateString());
-        datePop.setOnClickListener(new View.OnClickListener() {
+        datePop.setShowSoftInputOnFocus(false);
+        datePop.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View view) {
-                DialogFragment dialogFragment = new DatePickerFragment(new DateInfoConsumer() {
-                    @Override
-                    public void getDateString(String dateString) {
-                        datePop.setText(dateString);
-                    }
-                });
-                //TODO: see if there is a way to do this without adding FragmentActivity to this class
-                dialogFragment.show(fragmentActivity.getSupportFragmentManager(), "datePicker");
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus){
+                    DialogFragment dialogFragment = new DatePickerFragment(new DateInfoConsumer() {
+                        @Override
+                        public void getDateString(String dateString) {
+                            datePop.setText(dateString);
+                        }
+                    });
+                    //TODO: see if there is a way to do this without adding FragmentActivity to this class
+                    dialogFragment.show(fragmentActivity.getSupportFragmentManager(), "datePicker");
+                }
             }
         });
         catPop.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

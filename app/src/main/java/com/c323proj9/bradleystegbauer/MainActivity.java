@@ -43,6 +43,16 @@ public class MainActivity extends AppCompatActivity implements DateInfoConsumer 
 
             }
         });
+        EditText dateInput = findViewById(R.id.dateInput_edittext_main);
+        dateInput.setShowSoftInputOnFocus(false);
+        dateInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus){
+                    showDatePickerDialog(view);
+                }
+            }
+        });
     }
 
     /**
@@ -75,6 +85,12 @@ public class MainActivity extends AppCompatActivity implements DateInfoConsumer 
         startActivity(new Intent(MainActivity.this, ViewActivity.class));
     }
 
+    /**
+     * Method called when the date input is tapped by the user. Creates a DialogFragment
+     * (implemented by the DatePickerFragment class) and displays it.
+     * Results in a DatePickerDialog being shown.
+     * @param view
+     */
     public void showDatePickerDialog(View view) {
         DialogFragment dialogFragment = new DatePickerFragment(this);
         dialogFragment.show(getSupportFragmentManager(), "datePicker");

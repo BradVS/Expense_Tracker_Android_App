@@ -67,7 +67,6 @@
         android:ems="10"
         android:hint="Date (mm/dd/yyyy)"
         android:inputType="date"
-        android:onClick="showDatePickerDialog"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
