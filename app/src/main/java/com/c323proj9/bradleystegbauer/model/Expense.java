@@ -44,6 +44,9 @@ public class Expense {
         }
         this.category = category;
         this.money = money;
+        if (this.money.compareTo(new BigDecimal("0")) <= -1){
+            throw new NumberFormatException("Input a number greater than 0");
+        }
     }
 
     public Expense(int id, @NonNull String name, @NonNull String date, @NonNull String category, @NonNull String money) throws NumberFormatException {
@@ -64,21 +67,20 @@ public class Expense {
     public Expense(int id, @NonNull String name, @NonNull String date, @NonNull String category, @NonNull BigDecimal money) {
         this.id = id;
         this.name = name;
-        if (date.split("/").length > 1){
+        if (date.split("/").length > 2){
             this.date = LocalDate.parse(date, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
         }else{
             this.date = LocalDate.parse(date);
         }
         this.category = category;
         this.money = money;
+        if (this.money.compareTo(new BigDecimal("0")) <= -1){
+            throw new NumberFormatException("Input a number greater than 0");
+        }
     }
 
     public Expense(@NonNull String name, @NonNull String category, @NonNull LocalDate date, @NonNull BigDecimal money) {
-        this.id = -99;
-        this.name = name;
-        this.category = category;
-        this.date = date;
-        this.money = money;
+        this(-99, name, category, date, money);
     }
 
     public Expense(int id, @NonNull String name, @NonNull String category, @NonNull LocalDate date, @NonNull BigDecimal money) {
@@ -87,6 +89,17 @@ public class Expense {
         this.category = category;
         this.date = date;
         this.money = money;
+        if (this.money.compareTo(new BigDecimal("0")) <= -1){
+            throw new NumberFormatException("Input a number greater than 0");
+        }
+    }
+
+    public Expense(@NonNull String name, @NonNull String category, @NonNull LocalDate date, @NonNull String money) {
+        this(-99, name, category, date, new BigDecimal(money));
+    }
+
+    public Expense(int id, @NonNull String name, @NonNull String category, @NonNull LocalDate date, @NonNull String money) {
+        this(id, name, category, date, new BigDecimal(money));
     }
 
     public int getId() {
@@ -118,6 +131,7 @@ public class Expense {
         return money;
     }
 
+    @NonNull
     public String getMoneyString() {
         return this.money.toString();
     }
