@@ -1,4 +1,4 @@
-package com.c323proj9.bradleystegbauer;
+package com.c323proj9.bradleystegbauer.view.recviewadapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -24,6 +24,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.c323proj9.bradleystegbauer.R;
 import com.c323proj9.bradleystegbauer.controller.ExpenseController;
 import com.c323proj9.bradleystegbauer.controller.ExpenseControllerObject;
 import com.c323proj9.bradleystegbauer.controller.exceptions.InvalidIDException;

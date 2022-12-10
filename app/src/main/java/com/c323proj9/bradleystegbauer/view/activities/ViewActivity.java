@@ -1,4 +1,4 @@
-package com.c323proj9.bradleystegbauer;
+package com.c323proj9.bradleystegbauer.view.activities;
 
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +11,9 @@ import android.widget.Spinner;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.c323proj9.bradleystegbauer.R;
+import com.c323proj9.bradleystegbauer.view.recviewadapter.RecViewAdapter;
 
 public class ViewActivity extends AppCompatActivity {
     private String category;

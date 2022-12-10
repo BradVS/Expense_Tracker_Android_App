@@ -1,4 +1,4 @@
-package com.c323proj9.bradleystegbauer;
+package com.c323proj9.bradleystegbauer.view.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
+import com.c323proj9.bradleystegbauer.R;
 import com.c323proj9.bradleystegbauer.controller.ExpenseController;
 import com.c323proj9.bradleystegbauer.controller.ExpenseControllerObject;
 import com.c323proj9.bradleystegbauer.controller.exceptions.InvalidInputException;
