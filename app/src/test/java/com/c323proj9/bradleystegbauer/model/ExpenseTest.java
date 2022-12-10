@@ -1,6 +1,8 @@
 package com.c323proj9.bradleystegbauer.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -96,7 +98,7 @@ public class ExpenseTest {
         assertEquals(expense1.getDate(), LocalDate.parse("2022-11-12"));
         expense2.setDate("08/11/2011");
         assertNotEquals(expense2.getDate(), "09/11/2022");
-        assertNotEquals(expense2.getDate(), "08/11/2011");
+        assertNotEquals(expense2.getDateString(), "08/11/2011");
         assertEquals(expense2.getDate(), LocalDate.parse("2011-08-11"));
     }
 

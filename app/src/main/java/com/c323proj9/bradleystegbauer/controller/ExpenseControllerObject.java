@@ -34,10 +34,15 @@ public class ExpenseControllerObject implements ExpenseController {
         if (type == 0){
             additionalQueryPart = " AND name = '" + searchInput + "'";
         }else if(type == 2){
-            //TODO: replace with better data format system
+            //TODO: replace by making input show calendar on click?
             String[] dateArray = searchInput.split("/");
             if (dateArray.length <= 2){
-                throw new InvalidInputException("Enter a valid date");
+                dateArray = searchInput.split("-");
+                if (dateArray.length != 3){
+                    throw new InvalidInputException("Enter a valid date");
+                }
+                additionalQueryPart = " AND date = '" + searchInput +"'";
+                return dataManager.getExpensesFromSearch(category, additionalQueryPart);
             }
             String dateFormat = dateArray[2]+"-"+dateArray[0]+"-"+dateArray[1];
             additionalQueryPart = " AND date = '" + dateFormat +"'";
@@ -61,9 +66,6 @@ public class ExpenseControllerObject implements ExpenseController {
         if(expense.getName().isEmpty() || expense.getDateString().isEmpty() || expense.getCategory().isEmpty()){
             throw new InvalidInputException("Please enter name, date, and select a category.");
         }
-//        if (!dateFormatCheck(expense.getDate())){
-//            throw new InvalidInputException("Please enter a valid date.");
-//        }
         if (expense.getId() != -99){
             throw new InvalidInputException("This entry was already added.");
         }
@@ -104,9 +106,6 @@ public class ExpenseControllerObject implements ExpenseController {
         if(expense.getName().isEmpty() || expense.getDateString().isEmpty() || expense.getCategory().isEmpty()){
             throw new InvalidInputException("Please enter name, date, and select a category.");
         }
-//        if (!dateFormatCheck(expense.getDate())){
-//            throw new InvalidInputException("Please enter a valid date.");
-//        }
         return dataManager.updateExpense(expense);
     }
 

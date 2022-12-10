@@ -15,7 +15,6 @@ public class ExpenseDataSQLite implements ExpenseDataManager{
 
     public ExpenseDataSQLite(Context context) {
         db = context.openOrCreateDatabase("ExpensesDB", Context.MODE_PRIVATE, null);
-//        db = SQLiteDatabase.openOrCreateDatabase("ExpensesDB", null);
         //TODO: wrap this in exception handler?
         db.execSQL("CREATE TABLE IF NOT EXISTS expenses" + "(id integer primary key, name text, money real, date text, category text);");
     }
@@ -62,9 +61,6 @@ public class ExpenseDataSQLite implements ExpenseDataManager{
 
     @Override
     public Expense addExpense(Expense expense) {
-        //TODO: replace this by implementing better date formatting system
-//        String[] dateArray = expense.getDate().split("/");
-//        String dateFormat = dateArray[2]+"-"+dateArray[0]+"-"+dateArray[1];
         db.execSQL("INSERT INTO expenses(name, money, date, category) VALUES('"+expense.getName()+"','"+expense.getMoney()+"','"+expense.getDateString()+"','"+expense.getCategory()+"');");
         Cursor cursor = db.rawQuery("SELECT last_insert_rowid();", null);
         int colId = cursor.getColumnIndex("last_insert_rowid()");
@@ -96,14 +92,6 @@ public class ExpenseDataSQLite implements ExpenseDataManager{
 
     @Override
     public Expense updateExpense(Expense expense) {
-//        TODO: replace when better date formatter is implemented
-//        String[] dateArray = expense.getDate().split("/");
-//        String dateFormat;
-//        if(dateArray.length == 1){
-//            dateFormat = expense.getDate();
-//        }else{
-//            dateFormat = dateArray[2]+"-"+dateArray[0]+"-"+dateArray[1];
-//        }
         db.execSQL("UPDATE expenses SET name = '" + expense.getName() +"', money = '" + expense.getMoney() +"', date = '" + expense.getDateString() +"', category = '" +
                 expense.getCategory() +"' WHERE id = " + expense.getId() + ";");
         return expense;

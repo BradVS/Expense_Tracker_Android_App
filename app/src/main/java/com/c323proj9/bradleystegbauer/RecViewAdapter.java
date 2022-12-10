@@ -107,11 +107,6 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemView
         Button save = popupView.findViewById(R.id.editButton_button_popup);
         namePop.setText(expenses.get(position).getName());
         moneyPop.setText(String.valueOf(expenses.get(position).getMoney()));
-        //TODO: modify when replacing date text input with better input form
-//        String[] dateArray = expenses.get(position).getDateString().split("-");
-        //TODO: app breaks here when trying to edit item that was just edited. May need to implement central date format for Expense items
-//        String correctDate = dateArray[1]+"/"+dateArray[2]+"/"+dateArray[0];
-//        datePop.setText(correctDate);
         datePop.setText(expenses.get(position).getDateString());
         datePop.setShowSoftInputOnFocus(false);
         datePop.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -124,7 +119,6 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemView
                             datePop.setText(dateString);
                         }
                     });
-                    //TODO: see if there is a way to do this without adding FragmentActivity to this class
                     dialogFragment.show(fragmentActivity.getSupportFragmentManager(), "datePicker");
                 }
             }
