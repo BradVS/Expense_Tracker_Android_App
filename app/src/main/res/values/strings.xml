@@ -1,6 +1,26 @@
 <resources>
-    <string name="app_name">Project Nine</string>
-    
+    <string name="app_name">Expense Tracker Android App</string>
+
+    <!--  Text on Screen  -->
+    <string name="add_new_expense_title">Add New Expense</string>
+    <string name="view_expenses_button_text">View Expenses</string>
+    <string name="add_expense_button_text">Add Expense</string>
+    <string name="category_text">Category</string>
+    <string name="search_button_text">Search</string>
+    <string name="name_radioButton_text">Name</string>
+    <string name="money_radioButton_text">Money</string>
+    <string name="date_radioButton_text">Date</string>
+    <string name="save_edit_button_text">Save Edit</string>
+
+    <!--  Content Descriptions  -->
+    <string name="category_spinner_selector_contentDescription">Category Spinner Selector</string>
+
+    <!--  Input Hints  -->
+    <string name="money_spent_inputHint">Money Spent</string>
+    <string name="expense_name_inputHint">Expense Name</string>
+    <string name="date_inputHint">Date (mm/dd/yyyy)</string>
+    <string name="search_inputHint">Search</string>
+
     <string-array name="list_choices">
         <item>Food</item>
         <item>Transportation</item>

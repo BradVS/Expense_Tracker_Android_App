@@ -11,30 +11,34 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:hint="@string/expense_name_inputHint"
         android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/moneyEdit_edittext_popup"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:ems="10"
+        android:hint="@string/money_spent_inputHint"
         android:inputType="numberDecimal" />
 
     <EditText
         android:id="@+id/dateEdit_edittext_popup"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:ems="10"
+        android:hint="@string/date_inputHint"
         android:inputType="date" />
 
     <Spinner
         android:id="@+id/categoryChoice_spinner_popup"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="48dp"
+        android:contentDescription="@string/category_spinner_selector_contentDescription" />
 
     <Button
         android:id="@+id/editButton_button_popup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save Edit" />
+        android:text="@string/save_edit_button_text" />
 </LinearLayout>

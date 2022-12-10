@@ -27,7 +27,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:hint="Search"
+                    android:hint="@string/search_inputHint"
                     android:inputType="textPersonName" />
 
                 <RadioGroup
@@ -41,19 +41,19 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:checked="true"
-                        android:text="Name" />
+                        android:text="@string/name_radioButton_text" />
 
                     <RadioButton
                         android:id="@+id/moneyRadio_radiobutton_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Money" />
+                        android:text="@string/money_radioButton_text" />
 
                     <RadioButton
                         android:id="@+id/dateRadio_radiobutton_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Date" />
+                        android:text="@string/date_radioButton_text" />
                 </RadioGroup>
             </LinearLayout>
 
@@ -75,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:onClick="searchButtonCallback"
-                    android:text="Search" />
+                    android:text="@string/search_button_text" />
             </LinearLayout>
 
         </LinearLayout>
