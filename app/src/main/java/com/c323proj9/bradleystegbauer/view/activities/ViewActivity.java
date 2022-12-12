@@ -1,5 +1,6 @@
 package com.c323proj9.bradleystegbauer.view.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -64,10 +65,19 @@ public class ViewActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.recViewAdapter.loadAllItems();
+    }
+
     public void searchButtonCallback(View view) {
         EditText searchInput = findViewById(R.id.searchInput_edittext_view);
         String search = searchInput.getText().toString();
         recViewAdapter.search(search, searchType, category);
     }
 
+    public void addExpenseButtonCallback(View view) {
+        startActivity(new Intent(ViewActivity.this, MainActivity.class));
+    }
 }

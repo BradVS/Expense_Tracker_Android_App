@@ -211,6 +211,12 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemView
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    public void loadAllItems(){
+        expenses = controller.getAllExpenses();
+        notifyDataSetChanged();
+    }
+
     public static class ItemViewHolder extends RecyclerView.ViewHolder{
         TextView name, money, category, date;
         ImageView categoryIcon;

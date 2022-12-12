@@ -1,6 +1,5 @@
 package com.c323proj9.bradleystegbauer.view.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -83,7 +82,8 @@ public class MainActivity extends AppCompatActivity implements DateInfoConsumer 
      * @param view The view used for the callback function.
      */
     public void viewExpensesCallback(View view) {
-        startActivity(new Intent(MainActivity.this, ViewActivity.class));
+//        startActivity(new Intent(MainActivity.this, ViewActivity.class));
+        finish();
     }
 
     /**
