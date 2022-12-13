@@ -163,6 +163,7 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemView
             Expense updatedExpense = new Expense(expenses.get(position).getId(), name, date, editCategory, money);
             updatedExpense = controller.updateExpense(updatedExpense);
             expenses.set(position, updatedExpense);
+            totalExpensesReceiver.getTotalExpenses(totalExpenseSum());
             notifyItemChanged(position);
         }catch (NumberFormatException e){
             Toast.makeText(context, "Input a valid monetary value.", Toast.LENGTH_SHORT).show();
@@ -195,6 +196,7 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemView
         if (expenses.isEmpty()){
             Toast.makeText(context, "No expenses found.", Toast.LENGTH_SHORT).show();
         }
+        totalExpensesReceiver.getTotalExpenses(totalExpenseSum());
         notifyDataSetChanged();
     }
 
@@ -208,6 +210,7 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemView
             Expense expense = controller.deleteExpense(expenses.get(position).getId());
             expenses.remove(position);
             Toast.makeText(context, expense.getName() + " deleted!", Toast.LENGTH_SHORT).show();
+            totalExpensesReceiver.getTotalExpenses(totalExpenseSum());
             notifyItemRemoved(position);
         } catch (SQLException e){
             Toast.makeText(context, "Error: Problem deleting item from database.", Toast.LENGTH_SHORT).show();
@@ -219,6 +222,7 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemView
     @SuppressLint("NotifyDataSetChanged")
     public void loadAllItems(){
         expenses = controller.getAllExpenses();
+        totalExpensesReceiver.getTotalExpenses(totalExpenseSum());
         notifyDataSetChanged();
     }
 
