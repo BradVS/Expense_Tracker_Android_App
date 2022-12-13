@@ -162,8 +162,8 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemView
         try{
             Expense updatedExpense = new Expense(expenses.get(position).getId(), name, date, editCategory, money);
             updatedExpense = controller.updateExpense(updatedExpense);
+            totalExpensesReceiver.addToTotalExpenses(updatedExpense.getMoney().subtract(expenses.get(position).getMoney()));
             expenses.set(position, updatedExpense);
-            totalExpensesReceiver.getTotalExpenses(totalExpenseSum());
             notifyItemChanged(position);
         }catch (NumberFormatException e){
             Toast.makeText(context, "Input a valid monetary value.", Toast.LENGTH_SHORT).show();
@@ -210,7 +210,7 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemView
             Expense expense = controller.deleteExpense(expenses.get(position).getId());
             expenses.remove(position);
             Toast.makeText(context, expense.getName() + " deleted!", Toast.LENGTH_SHORT).show();
-            totalExpensesReceiver.getTotalExpenses(totalExpenseSum());
+            totalExpensesReceiver.subtractFromTotalExpenses(expense.getMoney());
             notifyItemRemoved(position);
         } catch (SQLException e){
             Toast.makeText(context, "Error: Problem deleting item from database.", Toast.LENGTH_SHORT).show();
