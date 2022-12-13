@@ -29,6 +29,7 @@ import com.c323proj9.bradleystegbauer.controller.ExpenseController;
 import com.c323proj9.bradleystegbauer.controller.ExpenseControllerObject;
 import com.c323proj9.bradleystegbauer.controller.exceptions.InvalidIDException;
 import com.c323proj9.bradleystegbauer.controller.exceptions.InvalidInputException;
+import com.c323proj9.bradleystegbauer.data.ExpenseDataSQLite;
 import com.c323proj9.bradleystegbauer.datepicker.DateInfoConsumer;
 import com.c323proj9.bradleystegbauer.datepicker.DatePickerFragment;
 import com.c323proj9.bradleystegbauer.model.Expense;
@@ -45,7 +46,7 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemView
     public RecViewAdapter(Context context, FragmentActivity fragmentActivity) {
         this.context = context;
         this.fragmentActivity = fragmentActivity;
-        this.controller = new ExpenseControllerObject(this.context);
+        this.controller = new ExpenseControllerObject(new ExpenseDataSQLite(this.context));
         this.expenses = controller.getAllExpenses();
     }
 

@@ -1,13 +1,10 @@
 package com.c323proj9.bradleystegbauer.controller;
 
-import android.content.Context;
-
 import androidx.annotation.NonNull;
 
 import com.c323proj9.bradleystegbauer.controller.exceptions.InvalidIDException;
 import com.c323proj9.bradleystegbauer.controller.exceptions.InvalidInputException;
 import com.c323proj9.bradleystegbauer.data.ExpenseDataManager;
-import com.c323proj9.bradleystegbauer.data.ExpenseDataSQLite;
 import com.c323proj9.bradleystegbauer.data.exceptions.NoExpenseFoundException;
 import com.c323proj9.bradleystegbauer.model.Expense;
 
@@ -16,8 +13,8 @@ import java.util.List;
 public class ExpenseControllerObject implements ExpenseController {
     private final ExpenseDataManager dataManager;
 
-    public ExpenseControllerObject(Context context) {
-        dataManager = new ExpenseDataSQLite(context);
+    public ExpenseControllerObject(ExpenseDataManager dataManager) {
+        this.dataManager = dataManager;
     }
 
     @Override

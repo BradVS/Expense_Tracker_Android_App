@@ -5,7 +5,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
-import android.os.Build;
 import android.util.Log;
 
 import androidx.test.core.app.ApplicationProvider;
@@ -13,6 +12,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.c323proj9.bradleystegbauer.controller.exceptions.InvalidIDException;
 import com.c323proj9.bradleystegbauer.controller.exceptions.InvalidInputException;
+import com.c323proj9.bradleystegbauer.data.ExpenseDataSQLite;
 import com.c323proj9.bradleystegbauer.model.Expense;
 
 import org.junit.After;
@@ -34,7 +34,7 @@ public class ExpenseControllerObjectTest {
 
     @Before
     public void setUp() throws Exception {
-        controller = new ExpenseControllerObject(ApplicationProvider.getApplicationContext());
+        controller = new ExpenseControllerObject(new ExpenseDataSQLite(ApplicationProvider.getApplicationContext()));
 //        controller = new ExpenseControllerObject(RuntimeEnvironment.systemContext);
         controller.addExpense(new Expense("TestExpense", "12/12/2022", "Food", "12.12"));
         controller.addExpense(new Expense("TestExpense2", "09/11/2022", "Miscellaneous", "34.21"));

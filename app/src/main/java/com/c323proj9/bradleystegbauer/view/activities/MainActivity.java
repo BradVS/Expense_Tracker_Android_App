@@ -15,6 +15,7 @@ import com.c323proj9.bradleystegbauer.R;
 import com.c323proj9.bradleystegbauer.controller.ExpenseController;
 import com.c323proj9.bradleystegbauer.controller.ExpenseControllerObject;
 import com.c323proj9.bradleystegbauer.controller.exceptions.InvalidInputException;
+import com.c323proj9.bradleystegbauer.data.ExpenseDataSQLite;
 import com.c323proj9.bradleystegbauer.datepicker.DateInfoConsumer;
 import com.c323proj9.bradleystegbauer.datepicker.DatePickerFragment;
 import com.c323proj9.bradleystegbauer.model.Expense;
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements DateInfoConsumer 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        controller = new ExpenseControllerObject(this);
+        controller = new ExpenseControllerObject(new ExpenseDataSQLite(this));
         Spinner spinner = findViewById(R.id.categoryChoice_spinner_main);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.list_choices, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
