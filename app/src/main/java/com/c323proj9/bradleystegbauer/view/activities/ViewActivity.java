@@ -8,17 +8,21 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.c323proj9.bradleystegbauer.R;
+import com.c323proj9.bradleystegbauer.view.activities.datareceivers.TotalExpensesReceiver;
 import com.c323proj9.bradleystegbauer.view.recviewadapter.RecViewAdapter;
 
-public class ViewActivity extends AppCompatActivity {
+import java.math.BigDecimal;
+
+public class ViewActivity extends AppCompatActivity implements TotalExpensesReceiver {
     private String category;
-    private RecyclerView recyclerView;
     private RecViewAdapter recViewAdapter;
     private int searchType = 0;
 
@@ -59,8 +63,8 @@ public class ViewActivity extends AppCompatActivity {
                 }
             }
         });
-        recyclerView = findViewById(R.id.expensesList_recyclerview_view);
-        recViewAdapter = new RecViewAdapter(this, this);
+        RecyclerView recyclerView = findViewById(R.id.expensesList_recyclerview_view);
+        recViewAdapter = new RecViewAdapter(this, this, this);
         recyclerView.setAdapter(recViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -79,5 +83,11 @@ public class ViewActivity extends AppCompatActivity {
 
     public void addExpenseButtonCallback(View view) {
         startActivity(new Intent(ViewActivity.this, MainActivity.class));
+    }
+
+    @Override
+    public void getTotalExpenses(@NonNull BigDecimal total) {
+        TextView totalExpensesTextView = findViewById(R.id.totalExpenses_textView);
+        totalExpensesTextView.setText(getString(R.string.totalExpenses_text, total));
     }
 }

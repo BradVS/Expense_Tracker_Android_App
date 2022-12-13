@@ -32,7 +32,9 @@ import com.c323proj9.bradleystegbauer.controller.exceptions.InvalidInputExceptio
 import com.c323proj9.bradleystegbauer.datepicker.DateInfoConsumer;
 import com.c323proj9.bradleystegbauer.datepicker.DatePickerFragment;
 import com.c323proj9.bradleystegbauer.model.Expense;
+import com.c323proj9.bradleystegbauer.view.activities.datareceivers.TotalExpensesReceiver;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemViewHolder> {
@@ -42,11 +44,14 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemView
     private final ExpenseController controller;
     private String editCategory = "";
     private PopupWindow popupWindow;
-    public RecViewAdapter(Context context, FragmentActivity fragmentActivity) {
+    private final TotalExpensesReceiver totalExpensesReceiver;
+    public RecViewAdapter(Context context, FragmentActivity fragmentActivity, TotalExpensesReceiver totalExpensesReceiver) {
         this.context = context;
         this.fragmentActivity = fragmentActivity;
         this.controller = new ExpenseControllerObject(this.context);
         this.expenses = controller.getAllExpenses();
+        this.totalExpensesReceiver = totalExpensesReceiver;
+        this.totalExpensesReceiver.getTotalExpenses(totalExpenseSum());
     }
 
     @NonNull
@@ -215,6 +220,14 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemView
     public void loadAllItems(){
         expenses = controller.getAllExpenses();
         notifyDataSetChanged();
+    }
+
+    private BigDecimal totalExpenseSum(){
+        BigDecimal sum = new BigDecimal("0");
+        for (Expense e: this.expenses) {
+            sum = sum.add(e.getMoney());
+        }
+        return sum;
     }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder{
