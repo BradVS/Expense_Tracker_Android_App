@@ -11,6 +11,8 @@
     <string name="money_radioButton_text">Money</string>
     <string name="date_radioButton_text">Date</string>
     <string name="save_edit_button_text">Save Edit</string>
+    <!--  TODO: change to account for other currencies  -->
+    <string name="totalExpenses_text">Total Expenses: $%.2f</string>
 
     <!--  Content Descriptions  -->
     <string name="category_spinner_selector_contentDescription">Category Spinner Selector</string>

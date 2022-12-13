@@ -33,7 +33,9 @@ import com.c323proj9.bradleystegbauer.data.ExpenseDataSQLite;
 import com.c323proj9.bradleystegbauer.datepicker.DateInfoConsumer;
 import com.c323proj9.bradleystegbauer.datepicker.DatePickerFragment;
 import com.c323proj9.bradleystegbauer.model.Expense;
+import com.c323proj9.bradleystegbauer.view.activities.datareceivers.TotalExpensesReceiver;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemViewHolder> {
@@ -43,11 +45,14 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemView
     private final ExpenseController controller;
     private String editCategory = "";
     private PopupWindow popupWindow;
-    public RecViewAdapter(Context context, FragmentActivity fragmentActivity) {
+    private final TotalExpensesReceiver totalExpensesReceiver;
+    public RecViewAdapter(Context context, FragmentActivity fragmentActivity, TotalExpensesReceiver totalExpensesReceiver) {
         this.context = context;
         this.fragmentActivity = fragmentActivity;
         this.controller = new ExpenseControllerObject(new ExpenseDataSQLite(this.context));
         this.expenses = controller.getAllExpenses();
+        this.totalExpensesReceiver = totalExpensesReceiver;
+        this.totalExpensesReceiver.getTotalExpenses(totalExpenseSum());
     }
 
     @NonNull
@@ -158,6 +163,7 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemView
         try{
             Expense updatedExpense = new Expense(expenses.get(position).getId(), name, date, editCategory, money);
             updatedExpense = controller.updateExpense(updatedExpense);
+            totalExpensesReceiver.addToTotalExpenses(updatedExpense.getMoney().subtract(expenses.get(position).getMoney()));
             expenses.set(position, updatedExpense);
             notifyItemChanged(position);
         }catch (NumberFormatException e){
@@ -191,6 +197,7 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemView
         if (expenses.isEmpty()){
             Toast.makeText(context, "No expenses found.", Toast.LENGTH_SHORT).show();
         }
+        totalExpensesReceiver.getTotalExpenses(totalExpenseSum());
         notifyDataSetChanged();
     }
 
@@ -204,6 +211,7 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemView
             Expense expense = controller.deleteExpense(expenses.get(position).getId());
             expenses.remove(position);
             Toast.makeText(context, expense.getName() + " deleted!", Toast.LENGTH_SHORT).show();
+            totalExpensesReceiver.subtractFromTotalExpenses(expense.getMoney());
             notifyItemRemoved(position);
         } catch (SQLException e){
             Toast.makeText(context, "Error: Problem deleting item from database.", Toast.LENGTH_SHORT).show();
@@ -215,7 +223,16 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ItemView
     @SuppressLint("NotifyDataSetChanged")
     public void loadAllItems(){
         expenses = controller.getAllExpenses();
+        totalExpensesReceiver.getTotalExpenses(totalExpenseSum());
         notifyDataSetChanged();
+    }
+
+    private BigDecimal totalExpenseSum(){
+        BigDecimal sum = new BigDecimal("0");
+        for (Expense e: this.expenses) {
+            sum = sum.add(e.getMoney());
+        }
+        return sum;
     }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder{
